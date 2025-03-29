@@ -1,0 +1,83 @@
+<resources>
+    <string name="app_name">Engineer</string>
+
+    <!--  SignInScreen  -->
+    <string name="authorization">Авторизация</string>
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="sign_in">Авторизоваться</string>
+    <string name="user_does_not_exist">Пользователя с такими данными в системе не существует</string>
+
+    <!--  SignUpScreen  -->
+    <string name="registration">Регистрация</string>
+    <string name="email">E-mail</string>
+    <string name="password_confirm">Подтверждение пароля</string>
+    <string name="sign_up">Зарегистрироваться</string>
+    <string name="registration_error">При попытке регистрации произошла ошибка</string>
+    <string name="user_with_current_email_already_exist">Пользователь с такой почтой уже зарегистрирован</string>
+    <string name="user_with_current_login_already_exist">Пользователь с таким логином уже зарегистрирован</string>
+
+    <!--  HomeScreen  -->
+    <string name="main">Главная</string>
+    <string name="filtering">Фильтрация</string>
+    <string name="apply_filtering">Применить фильтрацию</string>
+    <string name="status">Статус</string>
+    <string name="period">Период</string>
+    <string name="enter_nomenclature_title">Введите наименование номенклатуры...</string>
+    <string name="not_connection_to_servers">Отсутствует соединение с серверами</string>
+    <string name="list_is_empty">Список пуст</string>
+
+    <!--  ProfileScreen  -->
+    <string name="profile">Профиль</string>
+    <string name="master">Мастер</string>
+    <string name="admin">Администратор</string>
+    <string name="surname">Фамилия</string>
+    <string name="name">Имя</string>
+    <string name="lastname">Отчество</string>
+    <string name="exit_to_account">Выйти из аккаунта</string>
+    <string name="exit_from_account">Выход из аккаунта</string>
+    <string name="you_really_want_to_exit_from_account">Вы действительно хотите выйти из аккаунта?</string>
+
+    <!--  QuestionDialog  -->
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+
+    <!--  RepairRequestCard  -->
+    <string name="title_not_entered">Наименование оборудования не указано</string>
+
+    <!--  DatePickerDialog  -->
+    <string name="select">Выбрать</string>
+
+    <!--  SearchBar  -->
+    <string name="search">Поиск</string>
+
+    <!--  RepairRequestScreen  -->
+    <string name="repair_request">Заявка на ремонт</string>
+    <string name="number">Номер</string>
+    <string name="date_and_time">Дата и время</string>
+    <string name="organization_title">Наименование организации</string>
+    <string name="warehouse">Склад</string>
+    <string name="nomenclature_title">Наименование оборудования</string>
+    <string name="manager">Менеджер</string>
+    <string name="comment">Комментарий</string>
+    <string name="counterparty">Контрагент</string>
+    <string name="partner">Партнер</string>
+    <string name="contact_person">Контактное лицо</string>
+    <string name="contact_person_title">Наименование контактного лица</string>
+    <string name="contact_person_business_card_position">Должность по визитке контактного лица</string>
+    <string name="contact_person_phone_number">Номер телефона контактного лица</string>
+    <string name="malfunction">Неисправность</string>
+    <string name="malfunction_description">Описание неисправности</string>
+    <string name="completeness">Комплектность</string>
+    <string name="under_warranty">По гарантии</string>
+    <string name="series">Серия</string>
+    <string name="date_of_equipment_issue">Дата выдачи оборудования</string>
+    <string name="not_filled">Не заполнено</string>
+    <string name="record">Записать</string>
+    <string name="is_not_available_internet">Отсутствует интернет-соединение</string>
+    
+    <!--  NotAvailableInternetDialog  -->
+   <string name="not_internet_connection">Отсутствует интернет-соединение</string>
+    <string name="try_again">Попробовать еще раз</string>
+
+</resources>
