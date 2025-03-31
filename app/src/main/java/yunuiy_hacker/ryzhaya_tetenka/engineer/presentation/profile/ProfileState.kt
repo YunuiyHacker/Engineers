@@ -9,6 +9,7 @@ class ProfileState {
     var surname by mutableStateOf("")
     var name by mutableStateOf("")
     var lastname by mutableStateOf("")
+    var masterId by mutableStateOf(0)
 
     var showQuestionDialog by mutableStateOf(false)
     var title by mutableStateOf("")

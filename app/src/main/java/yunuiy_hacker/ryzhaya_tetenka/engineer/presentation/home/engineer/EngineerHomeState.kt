@@ -1,4 +1,4 @@
-package yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.home
+package yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.home.engineer
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -7,9 +7,8 @@ import androidx.compose.runtime.setValue
 import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.model.ApplicationStatus
 import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.model.RepairRequest
 import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.common.state.ContentState
-import java.util.Date
 
-class HomeState {
+class EngineerHomeState {
     var masterTitle by mutableStateOf("")
     var masterTitleClarifying by mutableStateOf("")
 

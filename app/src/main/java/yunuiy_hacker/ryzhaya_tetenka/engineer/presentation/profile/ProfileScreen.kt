@@ -1,5 +1,6 @@
 package yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.profile
 
+import android.R.attr.fontWeight
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -142,7 +143,9 @@ fun ProfileScreen(
                 ) {
                     Spacer(modifier = Modifier.height(24.dp))
                     Text(
-                        text = stringResource(R.string.master),
+                        text = if (state.masterId != 0) stringResource(R.string.master) else stringResource(
+                            R.string.admin
+                        ),
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Start,
@@ -160,7 +163,9 @@ fun ProfileScreen(
                         )
                         Text(
                             modifier = Modifier.weight(1f),
-                            text = state.surname,
+                            text = if (state.surname.isNotEmpty()) state.surname else stringResource(
+                                R.string.not_filled
+                            ),
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Normal,
                             textAlign = TextAlign.End,
@@ -178,7 +183,7 @@ fun ProfileScreen(
                         )
                         Text(
                             modifier = Modifier.weight(1f),
-                            text = state.name,
+                            text = if (state.name.isNotEmpty()) state.name else stringResource(R.string.not_filled),
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Normal,
                             textAlign = TextAlign.End
@@ -195,7 +200,9 @@ fun ProfileScreen(
                         )
                         Text(
                             modifier = Modifier.weight(1f),
-                            text = state.lastname,
+                            text = if (state.lastname.isNotEmpty()) state.lastname else stringResource(
+                                R.string.not_filled
+                            ),
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Normal,
                             textAlign = TextAlign.End

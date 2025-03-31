@@ -4,5 +4,10 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Master(val id: Int = 0, val title: String? = "", val titleClarifying: String? = "") :
+data class Master(
+    val id: Int = 0,
+    val title: String? = "",
+    val titleClarifying: String? = "",
+    val inn: String? = ""
+) :
     Parcelable

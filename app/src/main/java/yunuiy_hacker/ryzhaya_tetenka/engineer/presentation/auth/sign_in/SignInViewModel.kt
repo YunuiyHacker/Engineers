@@ -49,7 +49,13 @@ class SignInViewModel @Inject constructor(
 
             is SignInEvent.HideMessageDialogEvent -> state.showMessageDialog = false
 
-            is SignInEvent.SignInOnClick -> signIn()
+            is SignInEvent.ShowForgotPasswordBottomSheetEvent -> state.showForgotPasswordBottomSheet =
+                true
+
+            is SignInEvent.HideForgotPasswordBottomSheetEvent -> state.showForgotPasswordBottomSheet =
+                false
+
+            is SignInEvent.SignInOnClickEvent -> signIn()
         }
     }
 

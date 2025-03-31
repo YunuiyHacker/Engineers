@@ -44,7 +44,7 @@ import yunuiy_hacker.ryzhaya_tetenka.engineer.utils.Constants.CONNECTION_TIMEOUT
 import yunuiy_hacker.ryzhaya_tetenka.engineer.utils.Constants.KOTLIN_API_URL
 import yunuiy_hacker.ryzhaya_tetenka.engineer.utils.Constants.ONE_C_API_URL
 import yunuiy_hacker.ryzhaya_tetenka.engineer.utils.Constants.READ_TIMEOUT
-import yunuiy_hacker.ryzhaya_tetenka.engineer.utils.Constants.WRITE_TIMOUT
+import yunuiy_hacker.ryzhaya_tetenka.engineer.utils.Constants.WRITE_TIMEOUT
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -61,7 +61,7 @@ object AppModule {
     fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder().connectTimeout(CONNECTION_TIMEOUT, TimeUnit.MILLISECONDS)
             .readTimeout(READ_TIMEOUT, TimeUnit.MILLISECONDS)
-            .writeTimeout(WRITE_TIMOUT, TimeUnit.MILLISECONDS)
+            .writeTimeout(WRITE_TIMEOUT, TimeUnit.MILLISECONDS)
             .build()
     }
 

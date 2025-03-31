@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import yunuiy_hacker.ryzhaya_tetenka.engineer.data.local.shared_prefs.SharedPrefsHelper
+import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.model.RepairRequest
 import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.nav_graph.NavGraph
 import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.nav_graph.Route
 import yunuiy_hacker.ryzhaya_tetenka.engineer.ui.theme.EngineerTheme
@@ -24,12 +25,13 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navHostController = rememberNavController()
 
-            val id = sharedPrefsHelper.userId
+            val userId = sharedPrefsHelper.userId
+            val masterId = sharedPrefsHelper.masterId
 
             EngineerTheme {
                 NavGraph(
                     navHostController,
-                    if (id == 0) Route.SignInScreen.route else Route.HomeScreen.route
+                    if (userId == 0) Route.SignInScreen.route else if (masterId != 0) Route.EngineerHomeScreen.route else Route.AdminHomeScreen.route
                 )
             }
         }

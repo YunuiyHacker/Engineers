@@ -1,4 +1,4 @@
-package yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.home.repair_request
+package yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.home.engineer.repair_request
 
 import android.app.Application
 import androidx.compose.runtime.getValue
@@ -11,9 +11,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import retrofit2.HttpException
 import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.mappers.toDomain
 import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.use_case.application_statuses.ApplicationStatusesUseCase
 import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.use_case.repair_requests.RepairRequestsUseCase
+import yunuiy_hacker.ryzhaya_tetenka.engineer.utils.getConnectivityManager
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,6 +25,9 @@ class RepairRequestViewModel @Inject constructor(
     private val repairRequestsUseCase: RepairRequestsUseCase
 ) :
     ViewModel() {
+
+    val connectivityManager = getConnectivityManager(application)
+
     val state by mutableStateOf(RepairRequestState())
 
     fun onEvent(event: RepairRequestEvent) {
@@ -65,8 +70,22 @@ class RepairRequestViewModel @Inject constructor(
                             .equals(state.repairRequest.status.lowercase())
                     } ?: state.applicationStatuses[0]
 
+                    state.contentState.hasConnectionToServers.value = true
+                    state.contentState.isLoading.value = false
+                } catch (e: HttpException) {
+                    if (e.response()?.code() == 404 || e.response()?.code() == 502) {
+                        state.contentState.hasConnectionToServers.value = false
+                    }
+
                     state.contentState.isLoading.value = false
                 } catch (e: Exception) {
+                    checkInternetState()
+
+                    state.message = e.message.toString()
+                    if (state.contentState.internetIsNotAvailable.value)
+                        state.showMessageDialog = true
+                    state.contentState.hasConnectionToServers.value = true
+
                     state.contentState.isLoading.value = false
                 }
             }
@@ -86,14 +105,30 @@ class RepairRequestViewModel @Inject constructor(
                     )
 
                     state.success = true
+                    state.contentState.hasConnectionToServers.value = true
+                    state.contentState.isLoading.value = false
+                } catch (e: HttpException) {
+                    if (e.response()?.code() == 404 || e.response()?.code() == 502) {
+                        state.contentState.hasConnectionToServers.value = false
+                    }
 
                     state.contentState.isLoading.value = false
                 } catch (e: Exception) {
+                    checkInternetState()
+
                     state.message = e.message.toString()
-                    state.showMessageDialog = true
+                    if (state.contentState.internetIsNotAvailable.value)
+                        state.showMessageDialog = true
+                    state.contentState.hasConnectionToServers.value = true
+
                     state.contentState.isLoading.value = false
                 }
             }
         }
+    }
+
+    private fun checkInternetState() {
+        state.contentState.internetIsNotAvailable.value =
+            connectivityManager.getActiveNetworkInfo()?.isConnected ?: false
     }
 }

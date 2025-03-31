@@ -42,9 +42,9 @@ interface UsersApi {
         @Body user: User
     ): User?
 
-    @DELETE("/users")
+    @DELETE("/users/{userId}")
     suspend fun deleteUserById(
         @Header("Authorization") auth: String = getRetrofitBasicAuthenticationForKotlinString(),
-        @Body userId: Int
+        @Path("userId") userId: Int
     )
 }

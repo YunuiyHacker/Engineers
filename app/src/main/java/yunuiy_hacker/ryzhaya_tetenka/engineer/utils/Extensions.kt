@@ -2,6 +2,7 @@ package yunuiy_hacker.ryzhaya_tetenka.engineer.utils
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -77,4 +78,8 @@ fun isInternetAvailable(context: Context): Boolean {
     }
 
     return result
+}
+
+fun getConnectivityManager(application: Application): ConnectivityManager {
+    return application.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 }

@@ -7,17 +7,10 @@
     <string name="password">Пароль</string>
     <string name="sign_in">Авторизоваться</string>
     <string name="user_does_not_exist">Пользователя с такими данными в системе не существует</string>
+    <string name="forgot_password">Забыли пароль?</string>
+    <string name="forgot_password_info">Если вы забыли логин и/или пароль для входа в свой аккаунт мастера, пожалуйста, обратитесь к администратору. Он сможет вам помочь восстановить ваш пароль</string>
 
-    <!--  SignUpScreen  -->
-    <string name="registration">Регистрация</string>
-    <string name="email">E-mail</string>
-    <string name="password_confirm">Подтверждение пароля</string>
-    <string name="sign_up">Зарегистрироваться</string>
-    <string name="registration_error">При попытке регистрации произошла ошибка</string>
-    <string name="user_with_current_email_already_exist">Пользователь с такой почтой уже зарегистрирован</string>
-    <string name="user_with_current_login_already_exist">Пользователь с таким логином уже зарегистрирован</string>
-
-    <!--  HomeScreen  -->
+    <!--  EngineerHomeScreen  -->
     <string name="main">Главная</string>
     <string name="filtering">Фильтрация</string>
     <string name="apply_filtering">Применить фильтрацию</string>
@@ -26,6 +19,11 @@
     <string name="enter_nomenclature_title">Введите наименование номенклатуры...</string>
     <string name="not_connection_to_servers">Отсутствует соединение с серверами</string>
     <string name="list_is_empty">Список пуст</string>
+
+    <!--  AdminHomeScreen  -->
+    <string name="masters_list">Список мастеров</string>
+    <string name="deletion">Удаление</string>
+    <string name="you_really_want_to_delete_master">Вы действительно хотите удалить этого мастера?</string>
 
     <!--  ProfileScreen  -->
     <string name="profile">Профиль</string>
@@ -75,9 +73,24 @@
     <string name="not_filled">Не заполнено</string>
     <string name="record">Записать</string>
     <string name="is_not_available_internet">Отсутствует интернет-соединение</string>
-    
+
     <!--  NotAvailableInternetDialog  -->
-   <string name="not_internet_connection">Отсутствует интернет-соединение</string>
+    <string name="not_internet_connection">Отсутствует интернет-соединение</string>
     <string name="try_again">Попробовать еще раз</string>
+
+    <!--  EngineerScreen  -->
+    <string name="password_confirm">Подтверждение пароля</string>
+    <string name="add_master">Добавить мастера</string>
+    <string name="save_changes">Сохранить изменения</string>
+    <string name="employee">Сотрудник</string>
+    <string name="not_selected">Не выбрано</string>
+    <string name="please_fill_surname">Пожалуйста, заполните фамилию</string>
+    <string name="please_fill_name">Пожалуйста, заполните имя</string>
+    <string name="please_fill_login">Пожалуйста, заполните логин</string>
+    <string name="please_fill_password">Пожалуйста, заполните пароль</string>
+    <string name="please_fill_password_confirm">Пожалуйста, заполните подтверждение пароля</string>
+    <string name="password_and_him_confirm_not_equals">Пароль и его подтверждение не совпадают</string>
+    <string name="please_select_employee">Пожалуйста, выберите сотрудника</string>
+    <string name="user_with_this_login_already_exist">Пользователь с таким логином уже существует в система</string>
 
 </resources>

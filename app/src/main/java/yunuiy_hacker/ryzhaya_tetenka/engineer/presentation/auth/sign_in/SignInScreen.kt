@@ -1,5 +1,6 @@
 package yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.auth.sign_in
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -19,11 +20,14 @@ import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -39,6 +43,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -48,11 +53,14 @@ import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.common.composable.Loa
 import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.common.composable.MessageDialog
 import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.nav_graph.Route
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignInScreen(
     navHostController: NavHostController, viewModel: SignInViewModel = hiltViewModel()
 ) {
     val interactionSource = remember { MutableInteractionSource() }
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
 
     viewModel.state.let { state ->
         Scaffold {
@@ -135,11 +143,27 @@ fun SignInScreen(
                     ),
                     visualTransformation = if (!state.passwordVisibility) PasswordVisualTransformation() else VisualTransformation.None
                 )
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(6.dp))
+
+                Row(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(10.dp))
+                        .clickable {
+                            viewModel.onEvent(SignInEvent.ShowForgotPasswordBottomSheetEvent)
+                        },
+                ) {
+                    Text(
+                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 6.dp),
+                        text = stringResource(R.string.forgot_password),
+                        fontSize = 14.sp,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+                Spacer(modifier = Modifier.height(18.dp))
                 Button(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
-                        viewModel.onEvent(SignInEvent.SignInOnClick)
+                        viewModel.onEvent(SignInEvent.SignInOnClickEvent)
                     },
                     colors = ButtonDefaults.buttonColors(contentColor = MaterialTheme.colorScheme.onSurface),
                     shape = RoundedCornerShape(12.dp),
@@ -150,6 +174,37 @@ fun SignInScreen(
                         fontWeight = FontWeight.Medium,
                         color = Color.White
                     )
+                }
+            }
+        }
+
+        AnimatedVisibility(state.showForgotPasswordBottomSheet) {
+            ModalBottomSheet(sheetState = sheetState, onDismissRequest = {
+                viewModel.onEvent(SignInEvent.HideForgotPasswordBottomSheetEvent)
+            }, containerColor = MaterialTheme.colorScheme.surfaceVariant) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp)
+                ) {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = stringResource(R.string.forgot_password),
+                        color = MaterialTheme.colorScheme.onSurface,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium,
+                        textAlign = TextAlign.Center
+                    )
+                    Spacer(modifier = Modifier.height(24.dp))
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = stringResource(R.string.forgot_password_info),
+                        color = MaterialTheme.colorScheme.onSurface,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Normal,
+                        textAlign = TextAlign.Start
+                    )
+                    Spacer(modifier = Modifier.height(24.dp))
                 }
             }
         }
@@ -165,7 +220,7 @@ fun SignInScreen(
         }
 
         LaunchedEffect(state.success) {
-            if (state.success) navHostController.navigate(Route.HomeScreen.route)
+            if (state.success) navHostController.navigate(if (state.user.master != null) Route.EngineerHomeScreen.route else Route.AdminHomeScreen.route)
         }
     }
 }

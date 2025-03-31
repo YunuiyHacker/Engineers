@@ -33,7 +33,7 @@ interface MastersApi {
         @Body master: Master
     ): Master?
 
-    @DELETE("/masters")
+    @DELETE("/masters/{masterId}")
     suspend fun deleteMasterById(
         @Header("Authorization") auth: String = getRetrofitBasicAuthenticationForKotlinString(),
         @Path("masterId") masterId: Int

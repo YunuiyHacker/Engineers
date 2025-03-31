@@ -8,7 +8,6 @@ import yunuiy_hacker.ryzhaya_tetenka.engineer.data.common.model.RepairRequest
 import yunuiy_hacker.ryzhaya_tetenka.engineer.data.common.model.User
 import yunuiy_hacker.ryzhaya_tetenka.engineer.utils.toKotlinDate
 import yunuiy_hacker.ryzhaya_tetenka.engineer.utils.toOneCDateStringFormat
-import java.util.Date
 
 fun User.toDomain(): yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.model.User {
     return yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.model.User(
@@ -121,10 +120,10 @@ fun yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.model.ContactPerson.toD
 
 fun Master.toDomain(): yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.model.Master {
     return yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.model.Master(
-        id = id, title = title ?: "", titleClarifying = titleClarifying ?: ""
+        id = id, title = title ?: "", titleClarifying = titleClarifying ?: "", inn = inn ?: ""
     )
 }
 
 fun yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.model.Master.toData(): Master {
-    return Master(id = id, title = title, titleClarifying = titleClarifying)
+    return Master(id = id, title = title, titleClarifying = titleClarifying, inn = inn)
 }

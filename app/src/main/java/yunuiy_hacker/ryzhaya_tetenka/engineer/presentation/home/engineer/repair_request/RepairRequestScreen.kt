@@ -1,11 +1,10 @@
-package yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.home.repair_request
+package yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.home.engineer.repair_request
 
 import android.Manifest
 import android.content.Context
 import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresPermission
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -14,6 +13,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -60,11 +60,14 @@ import androidx.navigation.NavHostController
 import yunuiy_hacker.ryzhaya_tetenka.engineer.R
 import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.common.composable.LoadingIndicatorDialog
 import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.common.composable.MessageDialog
-import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.home.repair_request.composable.ContentRow
+import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.common.composable.NotAvailableInternet
+import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.common.composable.NotConnectionToServers
+import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.home.engineer.EngineerHomeEvent
+import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.home.engineer.repair_request.composable.ContentRow
+import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.nav_graph.Route
 import yunuiy_hacker.ryzhaya_tetenka.engineer.utils.isInternetAvailable
 import yunuiy_hacker.ryzhaya_tetenka.engineer.utils.toOneCDateStringFormat
 
-@RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RepairRequestScreen(
@@ -86,7 +89,9 @@ fun RepairRequestScreen(
     viewModel.state.let { state ->
         Scaffold(topBar = {
             TopAppBar(
-                modifier = Modifier.padding(horizontal = 24.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp),
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background),
                 title = {
                     Row(
@@ -116,17 +121,18 @@ fun RepairRequestScreen(
                         tint = MaterialTheme.colorScheme.onSurface
                     )
                 })
-        }, bottomBar = {}) {
-            AnimatedVisibility(!state.contentState.isLoading.value) {
-                Column(
-                    modifier = Modifier
-                        .padding(it)
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    if (state.contentState.internetIsNotAvailable.value) {
+        }) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(it)
+            ) {
+                AnimatedVisibility(!state.contentState.isLoading.value) {
+                    if (!state.contentState.isLoading.value && state.contentState.hasConnectionToServers.value && state.contentState.internetIsNotAvailable.value) {
                         Column(
                             modifier = Modifier
-                                .fillMaxWidth()
+                                .fillMaxSize()
+                                .verticalScroll(rememberScrollState())
                                 .padding(horizontal = 24.dp)
                         ) {
                             Spacer(modifier = Modifier.height(24.dp))
@@ -436,27 +442,20 @@ fun RepairRequestScreen(
                             }
                             Spacer(modifier = Modifier.height(24.dp))
                         }
-                    } else {
-                        Column(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            Column(modifier = Modifier.padding(horizontal = 24.dp)) {
-                                Icon(
-                                    modifier = Modifier.size(48.dp),
-                                    imageVector = Icons.Rounded.WifiOff,
-                                    contentDescription = null
-                                )
-                                Spacer(modifier = Modifier.height(24.dp))
-                                Text(
-                                    text = stringResource(R.string.is_not_available_internet),
-                                    color = MaterialTheme.colorScheme.onSurface,
-                                    fontSize = 24.sp,
-                                    fontWeight = FontWeight.Medium
-                                )
-                            }
-                        }
+                    }
+                    if (!state.contentState.internetIsNotAvailable.value) {
+                        NotAvailableInternet(
+                            modifier = Modifier.fillMaxSize(),
+                            requestTryAgain = {
+                                viewModel.onEvent(RepairRequestEvent.LoadDataEvent)
+                            })
+                    }
+                    if (!state.contentState.hasConnectionToServers.value) {
+                        NotConnectionToServers(
+                            modifier = Modifier.fillMaxSize(),
+                            requestTryAgain = {
+                                viewModel.onEvent(RepairRequestEvent.LoadDataEvent)
+                            })
                     }
                 }
             }

@@ -1,4 +1,4 @@
-package yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.home
+package yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.home.engineer
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
@@ -26,7 +26,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material.icons.rounded.ArrowDropUp
-import androidx.compose.material.icons.rounded.Dns
 import androidx.compose.material.icons.rounded.FilterList
 import androidx.compose.material.icons.rounded.List
 import androidx.compose.material.icons.rounded.Person
@@ -80,7 +79,10 @@ import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = hiltViewModel()) {
+fun EngineerHomeScreen(
+    navHostController: NavHostController,
+    viewModel: EngineerHomeViewModel = hiltViewModel()
+) {
     val context = LocalContext.current
     val interactionSource = remember { MutableInteractionSource() }
 
@@ -95,7 +97,7 @@ fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = 
     }
 
     LaunchedEffect(Unit) {
-        viewModel.onEvent(HomeEvent.LoadDataEvent)
+        viewModel.onEvent(EngineerHomeEvent.LoadDataEvent)
     }
 
     viewModel.state.let { state ->
@@ -116,7 +118,11 @@ fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = 
                             searchBarValue = it
                         },
                         onSearch = {
-                            viewModel.onEvent(HomeEvent.SearchRepairRequestsEvent(searchBarValue))
+                            viewModel.onEvent(
+                                EngineerHomeEvent.SearchRepairRequestsEvent(
+                                    searchBarValue
+                                )
+                            )
                         })
                     Spacer(Modifier.width(16.dp))
                     Box(
@@ -160,7 +166,8 @@ fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = 
                                 interactionSource = interactionSource,
                                 indication = null
                             ) {
-                                filteringExpanded = !filteringExpanded
+                                if (state.contentState.internetIsNotAvailable.value && state.contentState.hasConnectionToServers.value && state.repairRequests.isNotEmpty())
+                                    filteringExpanded = !filteringExpanded
                             }
                     ) {
                         Icon(
@@ -188,14 +195,14 @@ fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = 
                                 modifier = Modifier.offset(x = -12.dp),
                                 checked = state.applyStatusFiltering,
                                 onCheckedChange = {
-                                    viewModel.onEvent(HomeEvent.ToggleStatusApplyingEvent)
+                                    viewModel.onEvent(EngineerHomeEvent.ToggleStatusApplyingEvent)
                                 })
                             Text(
                                 modifier = Modifier.clickable(
                                     interactionSource = interactionSource,
                                     indication = null
                                 ) {
-                                    viewModel.onEvent(HomeEvent.ToggleStatusApplyingEvent)
+                                    viewModel.onEvent(EngineerHomeEvent.ToggleStatusApplyingEvent)
                                 },
                                 text = stringResource(R.string.status),
                                 color = MaterialTheme.colorScheme.onSurface
@@ -207,7 +214,7 @@ fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = 
                                     .background(MaterialTheme.colorScheme.surfaceVariant)
                                     .animateContentSize()
                                     .clickable {
-                                        viewModel.onEvent(HomeEvent.ShowStatusPickerMenuEvent)
+                                        viewModel.onEvent(EngineerHomeEvent.ShowStatusPickerMenuEvent)
                                     }) {
                                 Row(
                                     modifier = Modifier.padding(
@@ -236,7 +243,7 @@ fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = 
                                         ),
                                     expanded = state.showStatusPickerMenu,
                                     onDismissRequest = {
-                                        viewModel.onEvent(HomeEvent.HideStatusPickerMenuEvent)
+                                        viewModel.onEvent(EngineerHomeEvent.HideStatusPickerMenuEvent)
                                     },
                                     offset = DpOffset(x = -12.dp, y = 0.dp)
                                 ) {
@@ -249,7 +256,7 @@ fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = 
                                             )
                                         }, onClick = {
                                             viewModel.onEvent(
-                                                HomeEvent.SelectStatusPickerMenuEvent(
+                                                EngineerHomeEvent.SelectStatusPickerMenuEvent(
                                                     applicationStatus
                                                 )
                                             )
@@ -269,14 +276,14 @@ fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = 
                                 modifier = Modifier.offset(x = -12.dp),
                                 checked = state.applyPeriodFiltering,
                                 onCheckedChange = {
-                                    viewModel.onEvent(HomeEvent.TogglePeriodApplyingEvent)
+                                    viewModel.onEvent(EngineerHomeEvent.TogglePeriodApplyingEvent)
                                 })
                             Text(
                                 modifier = Modifier.clickable(
                                     interactionSource = interactionSource,
                                     indication = null
                                 ) {
-                                    viewModel.onEvent(HomeEvent.TogglePeriodApplyingEvent)
+                                    viewModel.onEvent(EngineerHomeEvent.TogglePeriodApplyingEvent)
                                 },
                                 text = stringResource(R.string.period),
                                 color = MaterialTheme.colorScheme.onSurface
@@ -288,7 +295,7 @@ fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = 
                                     .background(MaterialTheme.colorScheme.surfaceVariant)
                                     .animateContentSize()
                                     .clickable {
-                                        viewModel.onEvent(HomeEvent.ShowStartDatePickerDialogEvent)
+                                        viewModel.onEvent(EngineerHomeEvent.ShowStartDatePickerDialogEvent)
                                     }) {
                                 Row(
                                     modifier = Modifier.padding(
@@ -314,7 +321,7 @@ fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = 
                                     .background(MaterialTheme.colorScheme.surfaceVariant)
                                     .animateContentSize()
                                     .clickable {
-                                        viewModel.onEvent(HomeEvent.ShowEndDatePickerDialogEvent)
+                                        viewModel.onEvent(EngineerHomeEvent.ShowEndDatePickerDialogEvent)
                                     }) {
                                 Row(
                                     modifier = Modifier.padding(
@@ -361,7 +368,7 @@ fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = 
                                             }, repairRequest = repairRequest
                                     )
 
-                                    if (state.repairRequests.last() != repairRequest) {
+                                    if (repairRequests.last() != repairRequest) {
                                         Spacer(modifier = Modifier.height(16.dp))
                                     } else {
                                         Spacer(modifier = Modifier.height(24.dp))
@@ -392,12 +399,12 @@ fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = 
                 }
                 if (!state.contentState.internetIsNotAvailable.value) {
                     NotAvailableInternet(modifier = Modifier.fillMaxSize(), requestTryAgain = {
-                        viewModel.onEvent(HomeEvent.LoadDataEvent)
+                        viewModel.onEvent(EngineerHomeEvent.LoadDataEvent)
                     })
                 }
                 if (!state.contentState.hasConnectionToServers.value) {
                     NotConnectionToServers(modifier = Modifier.fillMaxSize(), requestTryAgain = {
-                        viewModel.onEvent(HomeEvent.LoadDataEvent)
+                        viewModel.onEvent(EngineerHomeEvent.LoadDataEvent)
                     })
                 }
             }
@@ -405,7 +412,7 @@ fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = 
 
         if (state.showMessageDialog) {
             MessageDialog(state.message, onDismissRequest = {
-                viewModel.onEvent(HomeEvent.HideMessageEvent)
+                viewModel.onEvent(EngineerHomeEvent.HideMessageDialogEvent)
             })
         }
 
@@ -417,7 +424,7 @@ fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = 
             DatePickerDialog(
                 modifier = Modifier.heightIn(max = 700.dp),
                 onDismissRequest = {
-                    viewModel.onEvent(HomeEvent.HideDatePickerDialogEvent)
+                    viewModel.onEvent(EngineerHomeEvent.HideDatePickerDialogEvent)
                 },
                 confirmButton = {},
                 colors = DatePickerDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
@@ -432,9 +439,17 @@ fun HomeScreen(navHostController: NavHostController, viewModel: HomeViewModel = 
                             val dateInMilliseconds = datePickerState.selectedDateMillis ?: 0
 
                             if (state.selectStartDate)
-                                viewModel.onEvent(HomeEvent.SelectStartDateEvent(dateInMilliseconds))
+                                viewModel.onEvent(
+                                    EngineerHomeEvent.SelectStartDateEvent(
+                                        dateInMilliseconds
+                                    )
+                                )
                             else
-                                viewModel.onEvent(HomeEvent.SelectEndDateEvent(dateInMilliseconds))
+                                viewModel.onEvent(
+                                    EngineerHomeEvent.SelectEndDateEvent(
+                                        dateInMilliseconds
+                                    )
+                                )
                         }, shape = RoundedCornerShape(12.dp),
                         colors = ButtonDefaults.buttonColors(contentColor = Color.White)
                     ) {

@@ -32,6 +32,7 @@ class ProfileViewModel @Inject constructor(private val sharedPrefsHelper: Shared
         state.surname = sharedPrefsHelper.surname ?: ""
         state.name = sharedPrefsHelper.name ?: ""
         state.lastname = sharedPrefsHelper.lastname ?: ""
+        state.masterId = sharedPrefsHelper.masterId
     }
 
     private fun exitToAccount() {

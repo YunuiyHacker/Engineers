@@ -1,8 +1,6 @@
-package yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.home
+package yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.home.engineer
 
 import android.app.Application
-import android.content.Context
-import android.net.ConnectivityManager
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -15,90 +13,91 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import retrofit2.HttpException
 import yunuiy_hacker.ryzhaya_tetenka.engineer.data.local.shared_prefs.SharedPrefsHelper
 import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.mappers.toDomain
 import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.use_case.application_statuses.ApplicationStatusesUseCase
 import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.use_case.repair_requests.RepairRequestsUseCase
+import yunuiy_hacker.ryzhaya_tetenka.engineer.utils.getConnectivityManager
 import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class EngineerHomeViewModel @Inject constructor(
     val application: Application,
     private val sharedPrefsHelper: SharedPrefsHelper,
     private val repairRequestsUseCase: RepairRequestsUseCase,
     private val applicationStatusesUseCase: ApplicationStatusesUseCase,
     val gson: Gson
 ) : ViewModel() {
-    val state by mutableStateOf(HomeState())
-
+    val state by mutableStateOf(EngineerHomeState())
 
     private val connectivityManager =
-        application.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        getConnectivityManager(application)
 
-    fun onEvent(event: HomeEvent) {
+    fun onEvent(event: EngineerHomeEvent) {
         when (event) {
-            is HomeEvent.LoadDataEvent -> loadData()
+            is EngineerHomeEvent.LoadDataEvent -> loadData()
 
-            is HomeEvent.ShowMessageEvent -> {
+            is EngineerHomeEvent.ShowMessageDialogEvent -> {
                 state.showMessageDialog = true
                 state.message = event.message
             }
 
-            is HomeEvent.HideMessageEvent -> state.showMessageDialog = false
+            is EngineerHomeEvent.HideMessageDialogEvent -> state.showMessageDialog = false
 
-            is HomeEvent.ShowStatusPickerMenuEvent -> state.showStatusPickerMenu = true
-            is HomeEvent.SelectStatusPickerMenuEvent -> {
+            is EngineerHomeEvent.ShowStatusPickerMenuEvent -> state.showStatusPickerMenu = true
+            is EngineerHomeEvent.SelectStatusPickerMenuEvent -> {
                 state.selectedStatus = event.status
                 state.showStatusPickerMenu = false
                 if (state.applyStatusFiltering)
                     loadDataWithFilter()
             }
 
-            is HomeEvent.HideStatusPickerMenuEvent -> state.showStatusPickerMenu = false
+            is EngineerHomeEvent.HideStatusPickerMenuEvent -> state.showStatusPickerMenu = false
 
-            is HomeEvent.ShowStartDatePickerDialogEvent -> {
+            is EngineerHomeEvent.ShowStartDatePickerDialogEvent -> {
                 state.selectStartDate = true
                 state.showDatePickerDialog = true
             }
 
-            is HomeEvent.ShowEndDatePickerDialogEvent -> {
+            is EngineerHomeEvent.ShowEndDatePickerDialogEvent -> {
                 state.selectStartDate = false
                 state.showDatePickerDialog = true
             }
 
-            is HomeEvent.SelectStartDateEvent -> {
+            is EngineerHomeEvent.SelectStartDateEvent -> {
                 state.startDateInMilliseconds = event.dateInMilliseconds
                 state.showDatePickerDialog = false
                 if (state.applyPeriodFiltering)
                     loadDataWithFilter()
             }
 
-            is HomeEvent.SelectEndDateEvent -> {
+            is EngineerHomeEvent.SelectEndDateEvent -> {
                 state.endDateInMilliseconds = event.dateInMilliseconds
                 state.showDatePickerDialog = false
                 if (state.applyPeriodFiltering)
                     loadDataWithFilter()
             }
 
-            is HomeEvent.HideDatePickerDialogEvent -> state.showDatePickerDialog = false
+            is EngineerHomeEvent.HideDatePickerDialogEvent -> state.showDatePickerDialog = false
 
-            is HomeEvent.SearchRepairRequestsEvent -> {
+            is EngineerHomeEvent.SearchRepairRequestsEvent -> {
                 state.query = event.query
                 loadDataWithFilter()
             }
 
-            is HomeEvent.ToggleStatusApplyingEvent -> {
+            is EngineerHomeEvent.ToggleStatusApplyingEvent -> {
                 state.applyStatusFiltering = !state.applyStatusFiltering
                 loadDataWithFilter()
             }
 
-            is HomeEvent.TogglePeriodApplyingEvent -> {
+            is EngineerHomeEvent.TogglePeriodApplyingEvent -> {
                 state.applyPeriodFiltering = !state.applyPeriodFiltering
                 loadDataWithFilter()
             }
 
-            is HomeEvent.CheckInternetStateEvent -> checkInternetState()
+            is EngineerHomeEvent.CheckInternetStateEvent -> checkInternetState()
         }
     }
 
@@ -235,7 +234,7 @@ class HomeViewModel @Inject constructor(
 
                     state.contentState.hasConnectionToServers.value = true
                     state.contentState.isLoading.value = false
-                } catch (e: retrofit2.HttpException) {
+                } catch (e: HttpException) {
                     if (e.response()?.code() == 404 || e.response()?.code() == 502) {
                         state.contentState.hasConnectionToServers.value = false
                     }

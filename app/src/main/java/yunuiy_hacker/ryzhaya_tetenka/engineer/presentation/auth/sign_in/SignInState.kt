@@ -19,6 +19,8 @@ class SignInState {
     var showMessageDialog by mutableStateOf(false)
     var messageText by mutableStateOf("")
 
+    var showForgotPasswordBottomSheet by mutableStateOf(false)
+
     var contentState by mutableStateOf(ContentState())
 
     var success by mutableStateOf(false)

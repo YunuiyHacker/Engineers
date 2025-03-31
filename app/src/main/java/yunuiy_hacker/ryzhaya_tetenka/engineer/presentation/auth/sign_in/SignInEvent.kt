@@ -8,5 +8,8 @@ sealed class SignInEvent {
     data class ShowMessageDialogEvent(val text: String) : SignInEvent()
     data object HideMessageDialogEvent : SignInEvent()
 
-    data object SignInOnClick : SignInEvent()
+    data object ShowForgotPasswordBottomSheetEvent : SignInEvent()
+    data object HideForgotPasswordBottomSheetEvent : SignInEvent()
+
+    data object SignInOnClickEvent : SignInEvent()
 }
