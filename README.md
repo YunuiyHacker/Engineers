@@ -13,7 +13,7 @@
   <li><b>Dagger Hilt</b></li>
   <li><b>SharedPreferences</b></li>
   <li><b>Kotlin Coroutines</b></li>
-  <li>Retrofit</li>
+  <li><b>Retrofit</b></li>
   <li><b>Accompanist</b></li>
   <li><b>Splash Screen Api</b></li>
 </ul>
