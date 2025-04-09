@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1062799572655",
+    "project_id": "tscenter-ce7df",
+    "storage_bucket": "tscenter-ce7df.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1062799572655:android:3fce26db929a0b0b06de5a",
+        "android_client_info": {
+          "package_name": "yunuiy_hacker.ryzhaya_tetenka.engineer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCg3NrG4ozgO1LTXj_e7iDqp3Oiqzx4sWs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

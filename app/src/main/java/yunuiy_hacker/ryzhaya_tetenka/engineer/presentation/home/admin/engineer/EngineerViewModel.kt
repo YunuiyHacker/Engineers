@@ -1,12 +1,9 @@
 package yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.home.admin.engineer
 
 import android.app.Application
-import android.text.TextUtils.isEmpty
-import android.util.Log.e
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -16,13 +13,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import retrofit2.HttpException
 import yunuiy_hacker.ryzhaya_tetenka.engineer.R
-import yunuiy_hacker.ryzhaya_tetenka.engineer.data.common.model.Master
+import yunuiy_hacker.ryzhaya_tetenka.engineer.data.remote.kotlin.model.Master
+import yunuiy_hacker.ryzhaya_tetenka.engineer.data.remote.kotlin.model.User
 import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.mappers.toData
 import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.mappers.toDomain
-import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.model.Employee
-import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.use_case.epmloyees.EmployeesUseCase
-import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.use_case.masters.MastersUseCase
-import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.use_case.users.UsersUseCase
+import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.one_c.model.Employee
+import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.one_c.use_case.epmloyees.EmployeesUseCase
+import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.use_case.masters.MastersUseCase
+import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.use_case.users.UsersUseCase
 import yunuiy_hacker.ryzhaya_tetenka.engineer.utils.getConnectivityManager
 import javax.inject.Inject
 
@@ -83,7 +81,7 @@ class EngineerViewModel @Inject constructor(
                             ?.toMutableList() ?: mutableStateListOf()
 
                     state.master = mastersUseCase.getMasterById(state.user.masterId)?.toDomain()
-                        ?: yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.model.Master()
+                        ?: yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.model.Master()
 
                     state.surname = state.user.surname
                     state.name = state.user.name
@@ -121,8 +119,7 @@ class EngineerViewModel @Inject constructor(
         state.contentState.isLoading.value = true
 
         checkInternetState()
-        GlobalScope.launch(Dispatchers.IO)
-        {
+        GlobalScope.launch(Dispatchers.IO) {
             runBlocking {
                 try {
                     val users = usersUseCase.getAllUsersOperator()
@@ -162,11 +159,10 @@ class EngineerViewModel @Inject constructor(
                     } else {
                         state.message = ""
 
-                        val masters =
-                            mastersUseCase.getAllMastersOperator()?.map { it.toDomain() }
-                                ?.toMutableList() ?: mutableStateListOf()
+                        val masters = mastersUseCase.getAllMastersOperator()?.map { it.toDomain() }
+                            ?.toMutableList() ?: mutableStateListOf()
 
-                        var master: yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.model.Master? =
+                        var master: yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.model.Master? =
                             masters.find { it.title == state.selectedEmployee.title && it.titleClarifying == state.selectedEmployee.title_clarifying && it.inn == state.selectedEmployee.inn }
                         if (master == null) {
                             master = mastersUseCase.insertMasterOperator(
@@ -191,7 +187,7 @@ class EngineerViewModel @Inject constructor(
                             )?.toDomain()
                         } else {
                             val user = usersUseCase.insertUserOperator(
-                                yunuiy_hacker.ryzhaya_tetenka.engineer.data.common.model.User(
+                                User(
                                     surname = state.surname,
                                     name = state.name,
                                     lastname = state.lastname,

@@ -1,3 +1,0 @@
-package yunuiy_hacker.ryzhaya_tetenka.engineer.domain.use_case.epmloyees
-
-data class EmployeesUseCase(val getAllEmployeesOperator: GetAllEmployeesOperator)

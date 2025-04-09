@@ -1,8 +1,5 @@
 package yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.common.composable
 
-import android.R.attr.fontWeight
-import android.R.attr.maxLines
-import android.R.attr.text
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,7 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import yunuiy_hacker.ryzhaya_tetenka.engineer.R
-import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.model.RepairRequest
+import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.one_c.model.RepairRequest
 
 @Composable
 fun RepairRequestCard(modifier: Modifier = Modifier, repairRequest: RepairRequest) {

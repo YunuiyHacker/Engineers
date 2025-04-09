@@ -4,7 +4,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
-import yunuiy_hacker.ryzhaya_tetenka.engineer.data.common.model.ApplicationStatus
+import yunuiy_hacker.ryzhaya_tetenka.engineer.data.remote.kotlin.model.ApplicationStatus
 import yunuiy_hacker.ryzhaya_tetenka.engineer.utils.getRetrofitBasicAuthenticationForKotlinString
 
 interface ApplicationStatusesApi {

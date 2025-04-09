@@ -15,7 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.model.User
+import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.model.User
 
 @Composable
 fun MasterCard(modifier: Modifier = Modifier, user: User) {

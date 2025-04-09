@@ -6,6 +6,7 @@ plugins {
     id("com.google.dagger.hilt.android")
     kotlin("plugin.serialization") version "1.9.0"
     id("kotlin-parcelize")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -85,6 +86,11 @@ dependencies {
     //retrofit
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+
+    //firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.12.0"))
+    implementation("com.google.firebase:firebase-messaging")
+    implementation("com.google.firebase:firebase-analytics")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

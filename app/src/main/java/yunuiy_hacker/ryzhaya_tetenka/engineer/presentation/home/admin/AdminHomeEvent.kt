@@ -1,6 +1,6 @@
 package yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.home.admin
 
-import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.model.User
+import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.model.User
 
 sealed class AdminHomeEvent {
     data object LoadDataEvent : AdminHomeEvent()

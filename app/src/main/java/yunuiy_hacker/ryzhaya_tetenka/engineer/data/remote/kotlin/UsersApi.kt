@@ -7,7 +7,7 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
-import yunuiy_hacker.ryzhaya_tetenka.engineer.data.common.model.User
+import yunuiy_hacker.ryzhaya_tetenka.engineer.data.remote.kotlin.model.User
 import yunuiy_hacker.ryzhaya_tetenka.engineer.utils.getRetrofitBasicAuthenticationForKotlinString
 
 interface UsersApi {

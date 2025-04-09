@@ -16,8 +16,8 @@ import kotlinx.coroutines.runBlocking
 import retrofit2.HttpException
 import yunuiy_hacker.ryzhaya_tetenka.engineer.data.local.shared_prefs.SharedPrefsHelper
 import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.mappers.toDomain
-import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.use_case.application_statuses.ApplicationStatusesUseCase
-import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.use_case.repair_requests.RepairRequestsUseCase
+import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.use_case.application_statuses.ApplicationStatusesUseCase
+import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.one_c.use_case.repair_requests.OneCRepairRequestsUseCase
 import yunuiy_hacker.ryzhaya_tetenka.engineer.utils.getConnectivityManager
 import java.util.Date
 import javax.inject.Inject
@@ -26,7 +26,7 @@ import javax.inject.Inject
 class EngineerHomeViewModel @Inject constructor(
     val application: Application,
     private val sharedPrefsHelper: SharedPrefsHelper,
-    private val repairRequestsUseCase: RepairRequestsUseCase,
+    private val oneCRepairRequestsUseCase: OneCRepairRequestsUseCase,
     private val applicationStatusesUseCase: ApplicationStatusesUseCase,
     val gson: Gson
 ) : ViewModel() {
@@ -114,7 +114,7 @@ class EngineerHomeViewModel @Inject constructor(
                     state.masterTitleClarifying = sharedPrefsHelper.titleClarifying ?: ""
 
                     state.allRepairRequests =
-                        repairRequestsUseCase.getRepairRequestsByEngineerNameAndEngineerNameClarifyingOperator(
+                        oneCRepairRequestsUseCase.getOneCRepairRequestsByEngineerNameAndEngineerNameClarifyingOperator(
                             state.masterTitle, state.masterTitleClarifying
                         )?.map { it.toDomain() }?.toMutableList() ?: mutableListOf()
                     state.repairRequests = state.allRepairRequests
@@ -177,7 +177,7 @@ class EngineerHomeViewModel @Inject constructor(
 
                     if (state.applyStatusFiltering && !state.applyPeriodFiltering) {
                         state.allRepairRequests =
-                            repairRequestsUseCase.getRepairRequestsByEngineerNameEngineerNameClarifyingAndStatusOperator(
+                            oneCRepairRequestsUseCase.getOneCRepairRequestsByEngineerNameEngineerNameClarifyingAndStatusOperator(
                                 masterTitle = state.masterTitle,
                                 masterTitleClarifying = state.masterTitleClarifying,
                                 status = state.selectedStatus.title
@@ -187,7 +187,7 @@ class EngineerHomeViewModel @Inject constructor(
                     }
                     if (!state.applyStatusFiltering && state.applyPeriodFiltering) {
                         state.allRepairRequests =
-                            repairRequestsUseCase.getRepairRequestsByEngineerNameEngineerNameClarifyingAndDateOperator(
+                            oneCRepairRequestsUseCase.getOneCRepairRequestsByEngineerNameEngineerNameClarifyingAndDateOperator(
                                 masterTitle = state.masterTitle,
                                 masterTitleClarifying = state.masterTitleClarifying,
                                 startDate = startDate,
@@ -198,7 +198,7 @@ class EngineerHomeViewModel @Inject constructor(
                     }
                     if (state.applyStatusFiltering && state.applyPeriodFiltering) {
                         state.allRepairRequests =
-                            repairRequestsUseCase.getRepairRequestsByEngineerNameEngineerNameClarifyingDateAndStatusOperator(
+                            oneCRepairRequestsUseCase.getOneCRepairRequestsByEngineerNameEngineerNameClarifyingDateAndStatusOperator(
                                 masterTitle = state.masterTitle,
                                 masterTitleClarifying = state.masterTitleClarifying,
                                 status = state.selectedStatus.title,
@@ -210,7 +210,7 @@ class EngineerHomeViewModel @Inject constructor(
                     }
                     if (!state.applyStatusFiltering && !state.applyPeriodFiltering) {
                         state.allRepairRequests =
-                            repairRequestsUseCase.getRepairRequestsByEngineerNameAndEngineerNameClarifyingOperator(
+                            oneCRepairRequestsUseCase.getOneCRepairRequestsByEngineerNameAndEngineerNameClarifyingOperator(
                                 masterTitle = state.masterTitle,
                                 masterTitleClarifying = state.masterTitleClarifying
                             )?.map {

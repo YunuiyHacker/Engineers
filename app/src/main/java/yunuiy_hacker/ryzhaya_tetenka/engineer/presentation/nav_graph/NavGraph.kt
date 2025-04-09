@@ -14,8 +14,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.google.gson.Gson
-import yunuiy_hacker.ryzhaya_tetenka.engineer.data.common.model.RepairRequest
-import yunuiy_hacker.ryzhaya_tetenka.engineer.data.common.model.User
+import yunuiy_hacker.ryzhaya_tetenka.engineer.data.remote.one_c.model.RepairRequest
+import yunuiy_hacker.ryzhaya_tetenka.engineer.data.remote.kotlin.model.User
 import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.mappers.toDomain
 import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.auth.sign_in.SignInScreen
 import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.home.admin.AdminHomeScreen

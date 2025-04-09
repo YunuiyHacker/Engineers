@@ -1,6 +1,6 @@
 package yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.home.admin.engineer
 
-import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.model.Employee
+import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.one_c.model.Employee
 
 sealed class EngineerEvent {
     data object LoadDataEvent : EngineerEvent()

@@ -63,7 +63,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import yunuiy_hacker.ryzhaya_tetenka.engineer.R
 import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.mappers.toData
-import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.model.RepairRequest
+import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.one_c.model.RepairRequest
 import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.utils.HomeFilteringDateFormat
 import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.common.composable.DatePickerDialog
 import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.common.composable.LoadingIndicatorDialog

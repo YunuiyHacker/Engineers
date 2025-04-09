@@ -13,8 +13,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import retrofit2.HttpException
 import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.mappers.toDomain
-import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.use_case.application_statuses.ApplicationStatusesUseCase
-import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.use_case.repair_requests.RepairRequestsUseCase
+import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.use_case.application_statuses.ApplicationStatusesUseCase
+import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.one_c.use_case.repair_requests.OneCRepairRequestsUseCase
 import yunuiy_hacker.ryzhaya_tetenka.engineer.utils.getConnectivityManager
 import javax.inject.Inject
 
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class RepairRequestViewModel @Inject constructor(
     val application: Application,
     private val applicationStatusesUseCase: ApplicationStatusesUseCase,
-    private val repairRequestsUseCase: RepairRequestsUseCase
+    private val oneCRepairRequestsUseCase: OneCRepairRequestsUseCase
 ) :
     ViewModel() {
 
@@ -99,7 +99,7 @@ class RepairRequestViewModel @Inject constructor(
         GlobalScope.launch(Dispatchers.IO) {
             runBlocking {
                 try {
-                    repairRequestsUseCase.putRepairRequestsByDocumentNumberWithStatus(
+                    oneCRepairRequestsUseCase.putOneCRepairRequestsByDocumentNumberWithStatus(
                         number = state.repairRequest.number.toString(),
                         status = state.selectedApplicationStatus.title
                     )

@@ -1,6 +1,6 @@
 package yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.home.engineer
 
-import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.model.ApplicationStatus
+import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.model.ApplicationStatus
 
 sealed class EngineerHomeEvent {
     data object LoadDataEvent : EngineerHomeEvent()

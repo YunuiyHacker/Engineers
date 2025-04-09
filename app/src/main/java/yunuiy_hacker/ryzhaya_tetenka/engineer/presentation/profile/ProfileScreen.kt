@@ -1,6 +1,5 @@
 package yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.profile
 
-import android.R.attr.fontWeight
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -41,6 +40,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import yunuiy_hacker.ryzhaya_tetenka.engineer.R
+import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.common.composable.LoadingIndicatorDialog
+import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.common.composable.MessageDialog
 import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.common.composable.QuestionDialog
 import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.nav_graph.Route
 
@@ -211,6 +212,16 @@ fun ProfileScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                 }
             }
+        }
+
+        if (state.contentState.isLoading.value) {
+            LoadingIndicatorDialog { }
+        }
+
+        if (state.showMessageDialog) {
+            MessageDialog(message = state.message, onDismissRequest = {
+                viewModel.onEvent(ProfileEvent.HideMessageDialog)
+            })
         }
 
         if (state.showQuestionDialog) {

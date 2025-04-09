@@ -16,4 +16,8 @@ object Constants {
     //one c server basic auth data
     const val ONE_C_USERNAME = "Администратор"
     const val ONE_C_PASSWORD = "1"
+
+    //notification properties
+    const val NOTIFICATION_CHANNEL_ID = "yunuiy_hacker.ryzhaya_tetenka.engineer"
+    const val NOTIFICATION_ID: String = 18.toString()
 }

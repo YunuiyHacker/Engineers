@@ -7,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import yunuiy_hacker.ryzhaya_tetenka.engineer.data.local.shared_prefs.SharedPrefsHelper
-import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.model.RepairRequest
 import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.nav_graph.NavGraph
 import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.nav_graph.Route
 import yunuiy_hacker.ryzhaya_tetenka.engineer.ui.theme.EngineerTheme

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Engineer</string>
+    <string name="app_name">ЦТО</string>
 
     <!--  SignInScreen  -->
     <string name="authorization">Авторизация</string>
@@ -35,6 +35,7 @@
     <string name="exit_to_account">Выйти из аккаунта</string>
     <string name="exit_from_account">Выход из аккаунта</string>
     <string name="you_really_want_to_exit_from_account">Вы действительно хотите выйти из аккаунта?</string>
+    <string name="could_not_log_out_of_account">Не удалось выйти из аккаунта</string>
 
     <!--  QuestionDialog  -->
     <string name="yes">Да</string>
@@ -92,5 +93,8 @@
     <string name="password_and_him_confirm_not_equals">Пароль и его подтверждение не совпадают</string>
     <string name="please_select_employee">Пожалуйста, выберите сотрудника</string>
     <string name="user_with_this_login_already_exist">Пользователь с таким логином уже существует в система</string>
+
+    <!--  notification properties  -->
+    <string name="notification_channel_description">Уведомление инженеров (36 часов)</string>
 
 </resources>

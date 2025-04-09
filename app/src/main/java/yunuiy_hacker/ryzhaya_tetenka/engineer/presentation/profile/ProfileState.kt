@@ -15,6 +15,9 @@ class ProfileState {
     var title by mutableStateOf("")
     var text by mutableStateOf("")
 
+    var showMessageDialog by mutableStateOf(false)
+    var message by mutableStateOf("")
+
     var contentState by mutableStateOf(ContentState())
 
     var success by mutableStateOf(false)

@@ -14,8 +14,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import retrofit2.HttpException
 import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.mappers.toDomain
-import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.use_case.masters.MastersUseCase
-import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.use_case.users.UsersUseCase
+import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.use_case.masters.MastersUseCase
+import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.use_case.users.UsersUseCase
 import yunuiy_hacker.ryzhaya_tetenka.engineer.utils.getConnectivityManager
 import javax.inject.Inject
 

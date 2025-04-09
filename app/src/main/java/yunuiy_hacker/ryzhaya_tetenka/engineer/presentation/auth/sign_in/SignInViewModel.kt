@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -12,10 +13,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import yunuiy_hacker.ryzhaya_tetenka.engineer.R
 import yunuiy_hacker.ryzhaya_tetenka.engineer.data.local.shared_prefs.SharedPrefsHelper
+import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.mappers.toData
 import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.mappers.toDomain
-import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.use_case.users.UsersUseCase
-import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.model.User
-import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.use_case.masters.MastersUseCase
+import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.use_case.users.UsersUseCase
+import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.model.User
+import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.use_case.masters.MastersUseCase
 import javax.inject.Inject
 
 @HiltViewModel
@@ -70,14 +72,29 @@ class SignInViewModel @Inject constructor(
                         usersUseCase.getUserByLoginAndPasswordOperator(state.login, state.password)
                     if (user?.id != 0) {
                         state.user = user?.toDomain()!!
+                        var deviceToken: String = ""
 
-                        if (state.user.masterId != 0)
-                            state.user.master =
-                                mastersUseCase.getMasterById(state.user.masterId)?.toDomain()
+                        FirebaseMessaging.getInstance().token.addOnCompleteListener {
+                            deviceToken = it.result.toString()
 
-                        saveUserData(state.user)
+                            GlobalScope.launch(Dispatchers.IO) {
+                                state.user = usersUseCase.updateUserOperator(
+                                    state.user.copy(deviceToken = deviceToken).toData()
+                                )?.toDomain()!!
 
-                        state.success = true
+                                state.messageText = state.user.toString()
+                                state.showMessageDialog = true
+
+                                if (state.user.masterId != 0)
+                                    state.user.master =
+                                        mastersUseCase.getMasterById(state.user.masterId)
+                                            ?.toDomain()
+
+                                saveUserData(state.user)
+
+                                state.success = true
+                            }
+                        }
                     } else {
                         state.messageText = application.getString(R.string.user_does_not_exist)
                         state.showMessageDialog = true
