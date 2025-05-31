@@ -1,48 +1,38 @@
 package yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.mappers
 
-import yunuiy_hacker.ryzhaya_tetenka.engineer.data.remote.kotlin.model.ApplicationStatus
+import yunuiy_hacker.ryzhaya_tetenka.engineer.data.remote.one_c.model.AuthData
 import yunuiy_hacker.ryzhaya_tetenka.engineer.data.remote.one_c.model.ContactPerson
 import yunuiy_hacker.ryzhaya_tetenka.engineer.data.remote.one_c.model.Employee
-import yunuiy_hacker.ryzhaya_tetenka.engineer.data.remote.kotlin.model.Master
 import yunuiy_hacker.ryzhaya_tetenka.engineer.data.remote.one_c.model.RepairRequest
-import yunuiy_hacker.ryzhaya_tetenka.engineer.data.remote.kotlin.model.User
+import yunuiy_hacker.ryzhaya_tetenka.engineer.data.remote.one_c.model.Status
+import yunuiy_hacker.ryzhaya_tetenka.engineer.data.remote.one_c.model.User
 import yunuiy_hacker.ryzhaya_tetenka.engineer.utils.toKotlinDate
 import yunuiy_hacker.ryzhaya_tetenka.engineer.utils.toOneCDateStringFormat
 
-fun User.toDomain(): yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.model.User {
-    return yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.model.User(
-        id = id,
-        surname = surname ?: "",
-        name = name ?: "",
-        lastname = lastname ?: "",
+fun User.toDomain(): yunuiy_hacker.ryzhaya_tetenka.engineer.domain.one_c.model.User {
+    return yunuiy_hacker.ryzhaya_tetenka.engineer.domain.one_c.model.User(
+        auth_is_success = auth_is_success ?: false,
         login = login ?: "",
-        password = password ?: "",
-        masterId = masterId ?: 0,
-        deviceToken = deviceToken ?: ""
+        full_name = full_name ?: ""
     )
 }
 
-fun yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.model.User.toData(): User {
+fun yunuiy_hacker.ryzhaya_tetenka.engineer.domain.one_c.model.User.toData(): User {
     return User(
-        id = id,
-        surname = surname,
-        name = name,
-        lastname = lastname,
+        auth_is_success = auth_is_success,
         login = login,
-        password = password,
-        masterId = masterId,
-        deviceToken = deviceToken
+        full_name = full_name
     )
 }
 
-fun ApplicationStatus.toDomain(): yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.model.ApplicationStatus {
-    return yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.model.ApplicationStatus(
-        id = id, title = title ?: "", normalizedTitle = normalizedTitle ?: ""
+fun Status.toDomain(): yunuiy_hacker.ryzhaya_tetenka.engineer.domain.one_c.model.Status {
+    return yunuiy_hacker.ryzhaya_tetenka.engineer.domain.one_c.model.Status(
+        title = title ?: "", synonym = synonym ?: ""
     )
 }
 
-fun yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.model.ApplicationStatus.toData(): ApplicationStatus {
-    return ApplicationStatus(id = id, title = title, normalizedTitle = normalizedTitle)
+fun yunuiy_hacker.ryzhaya_tetenka.engineer.domain.one_c.model.Status.toData(): Status {
+    return Status(title = title, synonym = synonym)
 }
 
 fun Employee.toDomain(): yunuiy_hacker.ryzhaya_tetenka.engineer.domain.one_c.model.Employee {
@@ -120,30 +110,13 @@ fun yunuiy_hacker.ryzhaya_tetenka.engineer.domain.one_c.model.ContactPerson.toDa
     )
 }
 
-fun Master.toDomain(): yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.model.Master {
-    return yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.model.Master(
-        id = id, title = title ?: "", titleClarifying = titleClarifying ?: "", inn = inn ?: ""
+fun AuthData.toDomain(): yunuiy_hacker.ryzhaya_tetenka.engineer.domain.one_c.model.AuthData {
+    return yunuiy_hacker.ryzhaya_tetenka.engineer.domain.one_c.model.AuthData(
+        user = user ?: "",
+        password = password ?: ""
     )
 }
 
-fun yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.model.Master.toData(): Master {
-    return Master(id = id, title = title, titleClarifying = titleClarifying, inn = inn)
-}
-
-fun yunuiy_hacker.ryzhaya_tetenka.engineer.data.remote.kotlin.model.RepairRequest.toDomain(): yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.model.RepairRequest {
-    return yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.model.RepairRequest(
-        id = id,
-        repairRequestNumber = repairRequestNumber ?: "",
-        isViewed = isViewed ?: false,
-        userId = userId ?: 0
-    )
-}
-
-fun yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.model.RepairRequest.toData(): yunuiy_hacker.ryzhaya_tetenka.engineer.data.remote.kotlin.model.RepairRequest {
-    return yunuiy_hacker.ryzhaya_tetenka.engineer.data.remote.kotlin.model.RepairRequest(
-        id = id,
-        repairRequestNumber = repairRequestNumber,
-        isViewed = isViewed,
-        userId = userId
-    )
+fun yunuiy_hacker.ryzhaya_tetenka.engineer.domain.one_c.model.AuthData.toData(): AuthData {
+    return AuthData(user = user, password = password)
 }

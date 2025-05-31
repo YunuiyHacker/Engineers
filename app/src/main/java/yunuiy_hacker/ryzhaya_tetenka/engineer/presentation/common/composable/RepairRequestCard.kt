@@ -34,7 +34,7 @@ fun RepairRequestCard(modifier: Modifier = Modifier, repairRequest: RepairReques
                         R.string.title_not_entered
                     ),
                     fontWeight = FontWeight.Medium,
-                    fontSize = 18.sp,
+                    fontSize = 20.sp,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
                     color = MaterialTheme.colorScheme.onSurface
@@ -46,7 +46,7 @@ fun RepairRequestCard(modifier: Modifier = Modifier, repairRequest: RepairReques
                     Text(
                         text = repairRequest.malfunction,
                         fontWeight = FontWeight.Medium,
-                        fontSize = 14.sp,
+                        fontSize = 16.sp,
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 1,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -65,7 +65,7 @@ fun RepairRequestCard(modifier: Modifier = Modifier, repairRequest: RepairReques
                     Text(
                         text = repairRequest.malfunction_description,
                         fontWeight = FontWeight.Medium,
-                        fontSize = 14.sp,
+                        fontSize = 16.sp,
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 1,
                         color = MaterialTheme.colorScheme.onSurfaceVariant

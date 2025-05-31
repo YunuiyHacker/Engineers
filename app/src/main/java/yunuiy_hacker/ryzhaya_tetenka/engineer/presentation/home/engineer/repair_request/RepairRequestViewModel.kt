@@ -13,15 +13,15 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import retrofit2.HttpException
 import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.mappers.toDomain
-import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.use_case.application_statuses.ApplicationStatusesUseCase
 import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.one_c.use_case.repair_requests.OneCRepairRequestsUseCase
+import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.one_c.use_case.statuses.StatusesUseCase
 import yunuiy_hacker.ryzhaya_tetenka.engineer.utils.getConnectivityManager
 import javax.inject.Inject
 
 @HiltViewModel
 class RepairRequestViewModel @Inject constructor(
     val application: Application,
-    private val applicationStatusesUseCase: ApplicationStatusesUseCase,
+    private val statusesUseCase: StatusesUseCase,
     private val oneCRepairRequestsUseCase: OneCRepairRequestsUseCase
 ) :
     ViewModel() {
@@ -36,8 +36,8 @@ class RepairRequestViewModel @Inject constructor(
 
             is RepairRequestEvent.ShowStatusPickerMenuEvent -> state.showStatusPickerMenu = true
             is RepairRequestEvent.SelectStatusPickerMenuEvent -> {
-                state.selectedApplicationStatus =
-                    event.applicationStatus
+                state.selectedStatus =
+                    event.status
                 state.showStatusPickerMenu = false
             }
 
@@ -61,14 +61,14 @@ class RepairRequestViewModel @Inject constructor(
         GlobalScope.launch(Dispatchers.IO) {
             runBlocking {
                 try {
-                    state.applicationStatuses =
-                        applicationStatusesUseCase.getAllApplicationStatusesOperator()
+                    state.statuses =
+                        statusesUseCase.getAllStatusesOperator()
                             ?.map { it.toDomain() }?.toMutableList() ?: mutableStateListOf()
 
-                    state.selectedApplicationStatus = state.applicationStatuses.find {
-                        it.normalizedTitle.lowercase()
+                    state.selectedStatus = state.statuses.find {
+                        it.title.lowercase()
                             .equals(state.repairRequest.status.lowercase())
-                    } ?: state.applicationStatuses[0]
+                    } ?: state.statuses[0]
 
                     state.contentState.hasConnectionToServers.value = true
                     state.contentState.isLoading.value = false
@@ -101,7 +101,7 @@ class RepairRequestViewModel @Inject constructor(
                 try {
                     oneCRepairRequestsUseCase.putOneCRepairRequestsByDocumentNumberWithStatus(
                         number = state.repairRequest.number.toString(),
-                        status = state.selectedApplicationStatus.title
+                        status = state.selectedStatus.title
                     )
 
                     state.success = true

@@ -13,13 +13,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -38,17 +44,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.ParagraphStyle
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withLink
+import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.google.common.io.Files.append
 import yunuiy_hacker.ryzhaya_tetenka.engineer.R
+import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.common.composable.LinkAnnotationText
 import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.common.composable.LoadingIndicatorDialog
 import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.common.composable.MessageDialog
 import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.nav_graph.Route
@@ -94,7 +111,7 @@ fun SignInScreen(
                         viewModel.onEvent(SignInEvent.ChangeLoginEvent(it))
                     },
                     label = {
-                        Text(text = stringResource(R.string.login))
+                        Text(text = stringResource(R.string.login), fontSize = 16.sp)
                     },
                     placeholder = {
                         Text(
@@ -116,7 +133,7 @@ fun SignInScreen(
                         viewModel.onEvent(SignInEvent.ChangePasswordEvent(it))
                     },
                     label = {
-                        Text(text = stringResource(R.string.password))
+                        Text(text = stringResource(R.string.password), fontSize = 16.sp)
                     },
                     placeholder = {
                         Text(
@@ -144,20 +161,44 @@ fun SignInScreen(
                     visualTransformation = if (!state.passwordVisibility) PasswordVisualTransformation() else VisualTransformation.None
                 )
                 Spacer(modifier = Modifier.height(6.dp))
-
                 Row(
                     modifier = Modifier
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
                             viewModel.onEvent(SignInEvent.ShowForgotPasswordBottomSheetEvent)
-                        },
+                        }
                 ) {
                     Text(
                         modifier = Modifier.padding(horizontal = 6.dp, vertical = 6.dp),
                         text = stringResource(R.string.forgot_password),
-                        fontSize = 14.sp,
+                        fontSize = 16.sp,
                         color = MaterialTheme.colorScheme.primary
                     )
+                }
+                Spacer(modifier = Modifier.height(6.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(imageVector = Icons.Outlined.Info, contentDescription = null)
+                    Spacer(modifier = Modifier.width(12.dp))
+                    val annotatedString = buildAnnotatedString {
+                        append(stringResource(R.string.in_auth_your_confirm_with))
+                        append(" ")
+                        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
+                            withLink(
+                                link = LinkAnnotation.Clickable(
+                                    tag = "TAG",
+                                    linkInteractionListener = {
+                                        viewModel.onEvent(SignInEvent.ShowPrivacyPolicyBottomSheetEvent)
+                                    },
+                                ),
+                            ) {
+                                append(stringResource(R.string.with_privacy_policy))
+                            }
+                        }
+                    }
+                    Text(text = annotatedString)
                 }
                 Spacer(modifier = Modifier.height(18.dp))
                 Button(
@@ -172,7 +213,8 @@ fun SignInScreen(
                     Text(
                         text = stringResource(R.string.sign_in),
                         fontWeight = FontWeight.Medium,
-                        color = Color.White
+                        color = Color.White,
+                        fontSize = 16.sp
                     )
                 }
             }
@@ -191,7 +233,7 @@ fun SignInScreen(
                         modifier = Modifier.fillMaxWidth(),
                         text = stringResource(R.string.forgot_password),
                         color = MaterialTheme.colorScheme.onSurface,
-                        fontSize = 16.sp,
+                        fontSize = 18.sp,
                         fontWeight = FontWeight.Medium,
                         textAlign = TextAlign.Center
                     )
@@ -200,7 +242,38 @@ fun SignInScreen(
                         modifier = Modifier.fillMaxWidth(),
                         text = stringResource(R.string.forgot_password_info),
                         color = MaterialTheme.colorScheme.onSurface,
-                        fontSize = 14.sp,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Normal,
+                        textAlign = TextAlign.Start
+                    )
+                    Spacer(modifier = Modifier.height(24.dp))
+                }
+            }
+        }
+
+        AnimatedVisibility(state.showPrivacyPolicyBottomSheet) {
+            ModalBottomSheet(sheetState = sheetState, onDismissRequest = {
+                viewModel.onEvent(SignInEvent.HidePrivacyPolicyBottomSheetEvent)
+            }, containerColor = MaterialTheme.colorScheme.surfaceVariant) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp).verticalScroll(rememberScrollState())
+                ) {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = stringResource(R.string.privacy_policy),
+                        color = MaterialTheme.colorScheme.onSurface,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                        textAlign = TextAlign.Center
+                    )
+                    Spacer(modifier = Modifier.height(24.dp))
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = stringResource(R.string.privacy_policy_info),
+                        color = MaterialTheme.colorScheme.onSurface,
+                        fontSize = 16.sp,
                         fontWeight = FontWeight.Normal,
                         textAlign = TextAlign.Start
                     )
@@ -220,7 +293,7 @@ fun SignInScreen(
         }
 
         LaunchedEffect(state.success) {
-            if (state.success) navHostController.navigate(if (state.user.master != null) Route.EngineerHomeScreen.route else Route.AdminHomeScreen.route)
+            if (state.success) navHostController.navigate(Route.EngineerHomeScreen.route)
         }
     }
 }

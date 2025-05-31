@@ -8,20 +8,20 @@ import yunuiy_hacker.ryzhaya_tetenka.engineer.data.remote.one_c.model.RepairRequ
 import yunuiy_hacker.ryzhaya_tetenka.engineer.data.remote.one_c.model.UpdatedRepairRequestResponse
 import yunuiy_hacker.ryzhaya_tetenka.engineer.utils.getRetrofitBasicAuthenticationForOneCString
 
-interface OneCRepairRequestsApi {
+interface RepairRequestsApi {
 
     @GET("repair_requests")
     suspend fun getRepairRequestsByEngineerNameAndEngineerNameClarifying(
         @Header("Authorization") auth: String = getRetrofitBasicAuthenticationForOneCString(),
-        @Query("engineer_name") engineerName: String,
-        @Query("engineer_name_clarifying") engineerNameClarifying: String
+        @Query("login") login: String,
+        @Query("full_name") full_name: String
     ): List<RepairRequest>?
 
     @GET("repair_requests")
     suspend fun getRepairRequestsByEngineerNameEngineerNameClarifyingAndDate(
         @Header("Authorization") auth: String = getRetrofitBasicAuthenticationForOneCString(),
-        @Query("engineer_name") engineerName: String,
-        @Query("engineer_name_clarifying") engineerNameClarifying: String,
+        @Query("login") login: String,
+        @Query("full_name") full_name: String,
         @Query("start_date") start_date: String,
         @Query("end_date") end_date: String
     ): List<RepairRequest>?
@@ -29,16 +29,16 @@ interface OneCRepairRequestsApi {
     @GET("repair_requests")
     suspend fun getRepairRequestsByEngineerNameEngineerNameClarifyingAndStatus(
         @Header("Authorization") auth: String = getRetrofitBasicAuthenticationForOneCString(),
-        @Query("engineer_name") engineerName: String,
-        @Query("engineer_name_clarifying") engineerNameClarifying: String,
+        @Query("login") login: String,
+        @Query("full_name") full_name: String,
         @Query("status") status: String
     ): List<RepairRequest>?
 
     @GET("repair_requests")
     suspend fun getRepairRequestsByEngineerNameEngineerNameClarifyingDateAndStatus(
         @Header("Authorization") auth: String = getRetrofitBasicAuthenticationForOneCString(),
-        @Query("engineer_name") engineerName: String,
-        @Query("engineer_name_clarifying") engineerNameClarifying: String,
+        @Query("login") login: String,
+        @Query("full_name") full_name: String,
         @Query("start_date") start_date: String,
         @Query("end_date") end_date: String,
         @Query("status") status: String

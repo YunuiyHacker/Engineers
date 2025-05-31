@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -13,17 +12,15 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import yunuiy_hacker.ryzhaya_tetenka.engineer.R
 import yunuiy_hacker.ryzhaya_tetenka.engineer.data.local.shared_prefs.SharedPrefsHelper
-import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.mappers.toData
+import yunuiy_hacker.ryzhaya_tetenka.engineer.data.remote.one_c.model.AuthData
 import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.mappers.toDomain
-import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.use_case.users.UsersUseCase
-import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.model.User
-import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.use_case.masters.MastersUseCase
+import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.one_c.model.User
+import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.one_c.use_case.auth.AuthUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-    private val usersUseCase: UsersUseCase,
-    private val mastersUseCase: MastersUseCase,
+    private val authUseCase: AuthUseCase,
     private val sharedPrefsHelper: SharedPrefsHelper,
     private val application: Application
 ) : ViewModel() {
@@ -57,6 +54,12 @@ class SignInViewModel @Inject constructor(
             is SignInEvent.HideForgotPasswordBottomSheetEvent -> state.showForgotPasswordBottomSheet =
                 false
 
+            is SignInEvent.ShowPrivacyPolicyBottomSheetEvent -> state.showPrivacyPolicyBottomSheet =
+                true
+
+            is SignInEvent.HidePrivacyPolicyBottomSheetEvent -> state.showPrivacyPolicyBottomSheet =
+                false
+
             is SignInEvent.SignInOnClickEvent -> signIn()
         }
     }
@@ -69,40 +72,22 @@ class SignInViewModel @Inject constructor(
             runBlocking {
                 try {
                     val user =
-                        usersUseCase.getUserByLoginAndPasswordOperator(state.login, state.password)
-                    if (user?.id != 0) {
-                        state.user = user?.toDomain()!!
-                        var deviceToken: String = ""
+                        authUseCase.authOperator(AuthData(state.login, state.password))
+                    if (user.auth_is_success == true) {
+                        state.user = user.toDomain()
+                        saveUserData(state.user)
 
-                        FirebaseMessaging.getInstance().token.addOnCompleteListener {
-                            deviceToken = it.result.toString()
-
-                            GlobalScope.launch(Dispatchers.IO) {
-                                state.user = usersUseCase.updateUserOperator(
-                                    state.user.copy(deviceToken = deviceToken).toData()
-                                )?.toDomain()!!
-
-                                state.messageText = state.user.toString()
-                                state.showMessageDialog = true
-
-                                if (state.user.masterId != 0)
-                                    state.user.master =
-                                        mastersUseCase.getMasterById(state.user.masterId)
-                                            ?.toDomain()
-
-                                saveUserData(state.user)
-
-                                state.success = true
-                            }
-                        }
+                        state.success = true
                     } else {
                         state.messageText = application.getString(R.string.user_does_not_exist)
-                        state.showMessageDialog = true
+                        if (state.messageText.isNotEmpty())
+                            state.showMessageDialog = true
                     }
                     state.contentState.isLoading.value = false
                 } catch (e: Exception) {
                     state.messageText = e.message.toString()
-                    state.showMessageDialog = true
+                    if (state.messageText.isNotEmpty())
+                        state.showMessageDialog = true
                     state.contentState.isLoading.value = false
                 }
             }
@@ -110,22 +95,13 @@ class SignInViewModel @Inject constructor(
     }
 
     private fun validate() {
-        if (state.login.length >= 5) if (state.password.length >= 5) state.validFields = true
+        if (state.login.length >= 1) if (state.password.length >= 1) state.validFields = true
         else state.validFields = false
         else state.validFields = false
     }
 
     private fun saveUserData(user: User) {
-        sharedPrefsHelper.userId = user.id
-        sharedPrefsHelper.surname = user.surname
-        sharedPrefsHelper.name = user.name
-        sharedPrefsHelper.lastname = user.lastname
         sharedPrefsHelper.login = user.login
-
-        sharedPrefsHelper.masterId = user.masterId
-        if (user.master != null) {
-            sharedPrefsHelper.title = user.master?.title
-            sharedPrefsHelper.titleClarifying = user.master?.titleClarifying
-        }
+        sharedPrefsHelper.fullName = user.full_name
     }
 }

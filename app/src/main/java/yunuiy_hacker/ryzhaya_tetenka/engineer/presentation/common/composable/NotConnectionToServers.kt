@@ -41,7 +41,7 @@ fun NotConnectionToServers(modifier: Modifier = Modifier, requestTryAgain: () ->
         Spacer(modifier = Modifier.height(24.dp))
         Text(
             text = stringResource(R.string.not_connection_to_servers),
-            fontSize = 14.sp,
+            fontSize = 16.sp,
             fontWeight = FontWeight.Normal,
             color = MaterialTheme.colorScheme.onSurface
         )
@@ -57,6 +57,7 @@ fun NotConnectionToServers(modifier: Modifier = Modifier, requestTryAgain: () ->
                 Text(
                     text = stringResource(R.string.try_again),
                     color = MaterialTheme.colorScheme.primary,
+                    fontSize = 14.sp
                 )
             }
         }

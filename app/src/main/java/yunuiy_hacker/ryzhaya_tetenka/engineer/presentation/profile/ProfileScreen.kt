@@ -70,7 +70,7 @@ fun ProfileScreen(
                         Text(
                             modifier = Modifier.offset(x = -12.dp),
                             text = stringResource(R.string.profile),
-                            fontSize = 16.sp,
+                            fontSize = 18.sp,
                             fontWeight = FontWeight.Medium,
                             textAlign = TextAlign.Center
                         )
@@ -125,7 +125,7 @@ fun ProfileScreen(
                             Spacer(modifier = Modifier.width(16.dp))
                             Text(
                                 text = stringResource(R.string.exit_to_account),
-                                fontSize = 16.sp,
+                                fontSize = 18.sp,
                                 fontWeight = FontWeight.Normal,
                                 color = Color.Red,
                                 textAlign = TextAlign.End
@@ -144,9 +144,7 @@ fun ProfileScreen(
                 ) {
                     Spacer(modifier = Modifier.height(24.dp))
                     Text(
-                        text = if (state.masterId != 0) stringResource(R.string.master) else stringResource(
-                            R.string.admin
-                        ),
+                        text = stringResource(R.string.master),
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Start,
@@ -156,18 +154,18 @@ fun ProfileScreen(
                     Row(modifier = Modifier.fillMaxWidth()) {
                         Text(
                             modifier = Modifier.weight(1f),
-                            text = stringResource(R.string.surname),
-                            fontSize = 16.sp,
+                            text = stringResource(R.string.login),
+                            fontSize = 18.sp,
                             fontWeight = FontWeight.Normal,
                             textAlign = TextAlign.Start,
                             color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
                             modifier = Modifier.weight(1f),
-                            text = if (state.surname.isNotEmpty()) state.surname else stringResource(
+                            text = if (state.login.isNotEmpty()) state.login else stringResource(
                                 R.string.not_filled
                             ),
-                            fontSize = 16.sp,
+                            fontSize = 18.sp,
                             fontWeight = FontWeight.Normal,
                             textAlign = TextAlign.End,
                             color = MaterialTheme.colorScheme.onSurface
@@ -177,34 +175,17 @@ fun ProfileScreen(
                     Row(modifier = Modifier.fillMaxWidth()) {
                         Text(
                             modifier = Modifier.weight(1f),
-                            text = stringResource(R.string.name),
-                            fontSize = 16.sp,
+                            text = stringResource(R.string.full_name),
+                            fontSize = 18.sp,
                             fontWeight = FontWeight.Normal,
                             textAlign = TextAlign.Start
                         )
                         Text(
                             modifier = Modifier.weight(1f),
-                            text = if (state.name.isNotEmpty()) state.name else stringResource(R.string.not_filled),
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Normal,
-                            textAlign = TextAlign.End
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(20.dp))
-                    Row(modifier = Modifier.fillMaxWidth()) {
-                        Text(
-                            modifier = Modifier.weight(1f),
-                            text = stringResource(R.string.lastname),
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Normal,
-                            textAlign = TextAlign.Start
-                        )
-                        Text(
-                            modifier = Modifier.weight(1f),
-                            text = if (state.lastname.isNotEmpty()) state.lastname else stringResource(
+                            text = if (state.fullName.isNotEmpty()) state.fullName else stringResource(
                                 R.string.not_filled
                             ),
-                            fontSize = 16.sp,
+                            fontSize = 18.sp,
                             fontWeight = FontWeight.Normal,
                             textAlign = TextAlign.End
                         )

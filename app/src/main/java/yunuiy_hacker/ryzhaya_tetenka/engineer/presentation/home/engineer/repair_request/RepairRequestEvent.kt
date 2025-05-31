@@ -1,12 +1,12 @@
 package yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.home.engineer.repair_request
 
-import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.model.ApplicationStatus
+import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.one_c.model.Status
 
 sealed class RepairRequestEvent {
     data object LoadDataEvent : RepairRequestEvent()
 
     data object ShowStatusPickerMenuEvent : RepairRequestEvent()
-    data class SelectStatusPickerMenuEvent(val applicationStatus: ApplicationStatus) :
+    data class SelectStatusPickerMenuEvent(val status: Status) :
         RepairRequestEvent()
 
     data object HideStatusPickerMenuEvent : RepairRequestEvent()

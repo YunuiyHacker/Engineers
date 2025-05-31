@@ -1,9 +1,7 @@
 package yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.home.engineer.repair_request
 
-import android.Manifest
 import android.content.Context
 import androidx.activity.compose.BackHandler
-import androidx.annotation.RequiresPermission
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -27,7 +25,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material.icons.rounded.ArrowDropUp
-import androidx.compose.material.icons.rounded.WifiOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -62,9 +59,7 @@ import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.common.composable.Loa
 import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.common.composable.MessageDialog
 import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.common.composable.NotAvailableInternet
 import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.common.composable.NotConnectionToServers
-import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.home.engineer.EngineerHomeEvent
 import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.home.engineer.repair_request.composable.ContentRow
-import yunuiy_hacker.ryzhaya_tetenka.engineer.presentation.nav_graph.Route
 import yunuiy_hacker.ryzhaya_tetenka.engineer.utils.isInternetAvailable
 import yunuiy_hacker.ryzhaya_tetenka.engineer.utils.toOneCDateStringFormat
 
@@ -74,7 +69,7 @@ fun RepairRequestScreen(
     navHostController: NavHostController, viewModel: RepairRequestViewModel = hiltViewModel()
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    var status by remember(viewModel.state.selectedApplicationStatus) { mutableStateOf(viewModel.state.selectedApplicationStatus) }
+    var status by remember(viewModel.state.selectedStatus) { mutableStateOf(viewModel.state.selectedStatus) }
     var showContactPersonInfo by remember { mutableStateOf(false) }
 
     LaunchedEffect(isInternetAvailable(viewModel.application as Context)) {
@@ -101,7 +96,7 @@ fun RepairRequestScreen(
                         Text(
                             modifier = Modifier.offset(x = -12.dp),
                             text = stringResource(R.string.repair_request),
-                            fontSize = 16.sp,
+                            fontSize = 18.sp,
                             fontWeight = FontWeight.Medium,
                             textAlign = TextAlign.Center
                         )
@@ -140,7 +135,7 @@ fun RepairRequestScreen(
                                 text = stringResource(R.string.number),
                                 color = MaterialTheme.colorScheme.onSurface,
                                 fontWeight = FontWeight.Normal,
-                                fontSize = 17.sp
+                                fontSize = 19.sp
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             ContentRow(text = state.repairRequest.number.toString())
@@ -149,7 +144,7 @@ fun RepairRequestScreen(
                                 text = stringResource(R.string.date_and_time),
                                 color = MaterialTheme.colorScheme.onSurface,
                                 fontWeight = FontWeight.Normal,
-                                fontSize = 17.sp
+                                fontSize = 19.sp
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             ContentRow(text = state.repairRequest.date?.toOneCDateStringFormat()!!)
@@ -158,7 +153,7 @@ fun RepairRequestScreen(
                                 text = stringResource(R.string.organization_title),
                                 color = MaterialTheme.colorScheme.onSurface,
                                 fontWeight = FontWeight.Normal,
-                                fontSize = 17.sp
+                                fontSize = 19.sp
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             ContentRow(
@@ -169,7 +164,7 @@ fun RepairRequestScreen(
                                 text = stringResource(R.string.warehouse),
                                 color = MaterialTheme.colorScheme.onSurface,
                                 fontWeight = FontWeight.Normal,
-                                fontSize = 17.sp
+                                fontSize = 19.sp
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             ContentRow(
@@ -180,7 +175,7 @@ fun RepairRequestScreen(
                                 text = stringResource(R.string.manager),
                                 color = MaterialTheme.colorScheme.onSurface,
                                 fontWeight = FontWeight.Normal,
-                                fontSize = 17.sp
+                                fontSize = 19.sp
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             ContentRow(
@@ -191,7 +186,7 @@ fun RepairRequestScreen(
                                 text = stringResource(R.string.comment),
                                 color = MaterialTheme.colorScheme.onSurface,
                                 fontWeight = FontWeight.Normal,
-                                fontSize = 17.sp
+                                fontSize = 19.sp
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             ContentRow(
@@ -202,7 +197,7 @@ fun RepairRequestScreen(
                                 text = stringResource(R.string.counterparty),
                                 color = MaterialTheme.colorScheme.onSurface,
                                 fontWeight = FontWeight.Normal,
-                                fontSize = 17.sp
+                                fontSize = 19.sp
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             ContentRow(
@@ -213,7 +208,7 @@ fun RepairRequestScreen(
                                 text = stringResource(R.string.partner),
                                 color = MaterialTheme.colorScheme.onSurface,
                                 fontWeight = FontWeight.Normal,
-                                fontSize = 17.sp
+                                fontSize = 19.sp
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             ContentRow(
@@ -232,7 +227,7 @@ fun RepairRequestScreen(
                                     text = stringResource(R.string.contact_person),
                                     color = MaterialTheme.colorScheme.onSurface,
                                     fontWeight = FontWeight.Normal,
-                                    fontSize = 17.sp
+                                    fontSize = 19.sp
                                 )
                                 Spacer(modifier = Modifier.width(4.dp))
                                 Icon(
@@ -247,7 +242,7 @@ fun RepairRequestScreen(
                                         text = stringResource(R.string.contact_person_title),
                                         color = MaterialTheme.colorScheme.onSurface,
                                         fontWeight = FontWeight.Normal,
-                                        fontSize = 17.sp
+                                        fontSize = 19.sp
                                     )
                                     Spacer(modifier = Modifier.height(8.dp))
                                     ContentRow(
@@ -258,7 +253,7 @@ fun RepairRequestScreen(
                                         text = stringResource(R.string.contact_person_business_card_position),
                                         color = MaterialTheme.colorScheme.onSurface,
                                         fontWeight = FontWeight.Normal,
-                                        fontSize = 17.sp
+                                        fontSize = 19.sp
                                     )
                                     Spacer(modifier = Modifier.height(8.dp))
                                     ContentRow(
@@ -270,7 +265,7 @@ fun RepairRequestScreen(
                                         text = stringResource(R.string.contact_person_phone_number),
                                         color = MaterialTheme.colorScheme.onSurface,
                                         fontWeight = FontWeight.Normal,
-                                        fontSize = 17.sp
+                                        fontSize = 19.sp
                                     )
                                     Spacer(modifier = Modifier.height(8.dp))
                                     ContentRow(
@@ -284,7 +279,7 @@ fun RepairRequestScreen(
                                 text = stringResource(R.string.nomenclature_title),
                                 color = MaterialTheme.colorScheme.onSurface,
                                 fontWeight = FontWeight.Normal,
-                                fontSize = 17.sp
+                                fontSize = 19.sp
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             ContentRow(
@@ -295,7 +290,7 @@ fun RepairRequestScreen(
                                 text = stringResource(R.string.malfunction),
                                 color = MaterialTheme.colorScheme.onSurface,
                                 fontWeight = FontWeight.Normal,
-                                fontSize = 17.sp
+                                fontSize = 19.sp
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             ContentRow(
@@ -306,7 +301,7 @@ fun RepairRequestScreen(
                                 text = stringResource(R.string.malfunction_description),
                                 color = MaterialTheme.colorScheme.onSurface,
                                 fontWeight = FontWeight.Normal,
-                                fontSize = 17.sp
+                                fontSize = 19.sp
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             ContentRow(
@@ -317,7 +312,7 @@ fun RepairRequestScreen(
                                 text = stringResource(R.string.completeness),
                                 color = MaterialTheme.colorScheme.onSurface,
                                 fontWeight = FontWeight.Normal,
-                                fontSize = 17.sp
+                                fontSize = 19.sp
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             ContentRow(
@@ -328,7 +323,7 @@ fun RepairRequestScreen(
                                 text = stringResource(R.string.status),
                                 color = MaterialTheme.colorScheme.onSurface,
                                 fontWeight = FontWeight.Normal,
-                                fontSize = 17.sp
+                                fontSize = 19.sp
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             Column {
@@ -347,7 +342,7 @@ fun RepairRequestScreen(
                                         modifier = Modifier
                                             .weight(1f)
                                             .padding(horizontal = 12.dp, vertical = 6.dp),
-                                        text = status.normalizedTitle,
+                                        text = status.title,
                                         color = MaterialTheme.colorScheme.primary,
                                         fontWeight = FontWeight.Medium,
                                         fontSize = 18.sp,
@@ -379,10 +374,10 @@ fun RepairRequestScreen(
                                             viewModel.onEvent(RepairRequestEvent.HideStatusPickerMenuEvent)
                                         }
                                     ) {
-                                        state.applicationStatuses.forEach { applicationStatus ->
+                                        state.statuses.forEach { applicationStatus ->
                                             DropdownMenuItem(text = {
                                                 Text(
-                                                    text = applicationStatus.normalizedTitle,
+                                                    text = applicationStatus.title,
                                                     fontWeight = FontWeight.Normal,
                                                     color = MaterialTheme.colorScheme.onSurface
                                                 )
@@ -402,7 +397,7 @@ fun RepairRequestScreen(
                                 text = stringResource(R.string.under_warranty),
                                 color = MaterialTheme.colorScheme.onSurface,
                                 fontWeight = FontWeight.Normal,
-                                fontSize = 17.sp
+                                fontSize = 19.sp
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             ContentRow(
@@ -413,7 +408,7 @@ fun RepairRequestScreen(
                                 text = stringResource(R.string.series),
                                 color = MaterialTheme.colorScheme.onSurface,
                                 fontWeight = FontWeight.Normal,
-                                fontSize = 17.sp
+                                fontSize = 19.sp
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             ContentRow(
@@ -424,7 +419,7 @@ fun RepairRequestScreen(
                                 text = stringResource(R.string.date_of_equipment_issue),
                                 color = MaterialTheme.colorScheme.onSurface,
                                 fontWeight = FontWeight.Normal,
-                                fontSize = 17.sp
+                                fontSize = 19.sp
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             ContentRow(
@@ -437,7 +432,8 @@ fun RepairRequestScreen(
                                 Text(
                                     text = stringResource(R.string.record),
                                     color = Color.White,
-                                    fontWeight = FontWeight.Medium
+                                    fontWeight = FontWeight.Medium,
+                                    fontSize = 16.sp
                                 )
                             }
                             Spacer(modifier = Modifier.height(24.dp))

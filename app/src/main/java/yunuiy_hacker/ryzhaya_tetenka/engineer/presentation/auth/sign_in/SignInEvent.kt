@@ -11,5 +11,8 @@ sealed class SignInEvent {
     data object ShowForgotPasswordBottomSheetEvent : SignInEvent()
     data object HideForgotPasswordBottomSheetEvent : SignInEvent()
 
+    data object ShowPrivacyPolicyBottomSheetEvent : SignInEvent()
+    data object HidePrivacyPolicyBottomSheetEvent : SignInEvent()
+
     data object SignInOnClickEvent : SignInEvent()
 }

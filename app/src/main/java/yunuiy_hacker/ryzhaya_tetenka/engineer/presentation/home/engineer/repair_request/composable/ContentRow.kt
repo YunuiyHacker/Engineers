@@ -31,7 +31,7 @@ fun ContentRow(modifier: Modifier = Modifier, text: String) {
             text = if (text.isNotEmpty()) text else stringResource(R.string.not_filled),
             color = if (text.isNotEmpty()) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
             fontWeight = FontWeight.Medium,
-            fontSize = 18.sp
+            fontSize = 21.sp
         )
     }
 }

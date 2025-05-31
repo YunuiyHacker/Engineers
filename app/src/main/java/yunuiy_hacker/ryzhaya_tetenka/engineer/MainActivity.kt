@@ -24,13 +24,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navHostController = rememberNavController()
 
-            val userId = sharedPrefsHelper.userId
-            val masterId = sharedPrefsHelper.masterId
+            val login = sharedPrefsHelper.login
 
             EngineerTheme {
                 NavGraph(
                     navHostController,
-                    if (userId == 0) Route.SignInScreen.route else if (masterId != 0) Route.EngineerHomeScreen.route else Route.AdminHomeScreen.route
+                    if (login.isNullOrEmpty()) Route.SignInScreen.route else Route.EngineerHomeScreen.route
                 )
             }
         }

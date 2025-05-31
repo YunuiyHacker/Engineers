@@ -80,8 +80,7 @@ import java.util.Date
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EngineerHomeScreen(
-    navHostController: NavHostController,
-    viewModel: EngineerHomeViewModel = hiltViewModel()
+    navHostController: NavHostController, viewModel: EngineerHomeViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     val interactionSource = remember { MutableInteractionSource() }
@@ -115,7 +114,7 @@ fun EngineerHomeScreen(
                         placeholder = stringResource(R.string.enter_nomenclature_title),
                         query = searchBarValue,
                         onQueryChange = {
-                            searchBarValue = it
+                            searchBarValue = it.take(50)
                         },
                         onSearch = {
                             viewModel.onEvent(
@@ -157,19 +156,18 @@ fun EngineerHomeScreen(
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = stringResource(R.string.filtering),
-                        color = MaterialTheme.colorScheme.onSurface
+                        color = MaterialTheme.colorScheme.onSurface,
+                        fontSize = 18.sp
                     )
                     Box(
                         modifier = Modifier
                             .offset(x = -4.dp)
                             .clickable(
-                                interactionSource = interactionSource,
-                                indication = null
+                                interactionSource = interactionSource, indication = null
                             ) {
-                                if (state.contentState.internetIsNotAvailable.value && state.contentState.hasConnectionToServers.value && state.repairRequests.isNotEmpty())
-                                    filteringExpanded = !filteringExpanded
-                            }
-                    ) {
+                                if (state.contentState.internetIsNotAvailable.value && state.contentState.hasConnectionToServers.value && state.repairRequests.isNotEmpty()) filteringExpanded =
+                                    !filteringExpanded
+                            }) {
                         Icon(
                             modifier = Modifier.padding(8.dp),
                             imageVector = if (!filteringExpanded) Icons.Rounded.ArrowDropDown else Icons.Rounded.ArrowDropUp,
@@ -199,13 +197,13 @@ fun EngineerHomeScreen(
                                 })
                             Text(
                                 modifier = Modifier.clickable(
-                                    interactionSource = interactionSource,
-                                    indication = null
+                                    interactionSource = interactionSource, indication = null
                                 ) {
                                     viewModel.onEvent(EngineerHomeEvent.ToggleStatusApplyingEvent)
                                 },
                                 text = stringResource(R.string.status),
-                                color = MaterialTheme.colorScheme.onSurface
+                                color = MaterialTheme.colorScheme.onSurface,
+                                fontSize = 18.sp
                             )
                             Spacer(modifier = Modifier.width(16.dp))
                             Row(
@@ -218,13 +216,13 @@ fun EngineerHomeScreen(
                                     }) {
                                 Row(
                                     modifier = Modifier.padding(
-                                        horizontal = 12.dp,
-                                        vertical = 6.dp
+                                        horizontal = 12.dp, vertical = 6.dp
                                     )
                                 ) {
                                     Text(
-                                        text = state.selectedStatus.normalizedTitle,
-                                        color = MaterialTheme.colorScheme.onSurface
+                                        text = state.selectedStatus.title,
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                        fontSize = 18.sp
                                     )
                                 }
                             }
@@ -247,10 +245,10 @@ fun EngineerHomeScreen(
                                     },
                                     offset = DpOffset(x = -12.dp, y = 0.dp)
                                 ) {
-                                    state.applicationStatuses.forEach { applicationStatus ->
+                                    state.statuses.forEach { applicationStatus ->
                                         DropdownMenuItem(text = {
                                             Text(
-                                                text = applicationStatus.normalizedTitle,
+                                                text = applicationStatus.title,
                                                 fontWeight = FontWeight.Normal,
                                                 color = MaterialTheme.colorScheme.onSurface
                                             )
@@ -280,13 +278,13 @@ fun EngineerHomeScreen(
                                 })
                             Text(
                                 modifier = Modifier.clickable(
-                                    interactionSource = interactionSource,
-                                    indication = null
+                                    interactionSource = interactionSource, indication = null
                                 ) {
                                     viewModel.onEvent(EngineerHomeEvent.TogglePeriodApplyingEvent)
                                 },
                                 text = stringResource(R.string.period),
-                                color = MaterialTheme.colorScheme.onSurface
+                                color = MaterialTheme.colorScheme.onSurface,
+                                fontSize = 18.sp
                             )
                             Spacer(modifier = Modifier.width(16.dp))
                             Row(
@@ -299,20 +297,20 @@ fun EngineerHomeScreen(
                                     }) {
                                 Row(
                                     modifier = Modifier.padding(
-                                        horizontal = 12.dp,
-                                        vertical = 6.dp
+                                        horizontal = 12.dp, vertical = 6.dp
                                     )
                                 ) {
                                     Text(
                                         text = HomeFilteringDateFormat.format(Date(state.startDateInMilliseconds)),
-                                        color = MaterialTheme.colorScheme.onSurface
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                        fontSize = 18.sp
                                     )
                                 }
                             }
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
-                                text = "-",
-                                color = MaterialTheme.colorScheme.onSurface
+                                text = "-", color = MaterialTheme.colorScheme.onSurface,
+                                fontSize = 18.sp
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Row(
@@ -325,13 +323,13 @@ fun EngineerHomeScreen(
                                     }) {
                                 Row(
                                     modifier = Modifier.padding(
-                                        horizontal = 12.dp,
-                                        vertical = 6.dp
+                                        horizontal = 12.dp, vertical = 6.dp
                                     )
                                 ) {
                                     Text(
                                         text = HomeFilteringDateFormat.format(Date(state.endDateInMilliseconds)),
-                                        color = MaterialTheme.colorScheme.onSurface
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                        fontSize = 18.sp
                                     )
                                 }
                             }
@@ -341,8 +339,7 @@ fun EngineerHomeScreen(
                 if (!state.contentState.isLoading.value && state.contentState.hasConnectionToServers.value && state.contentState.internetIsNotAvailable.value) {
                     if (repairRequests.isNotEmpty()) {
                         Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
+                            modifier = Modifier.fillMaxWidth()
                         ) {
                             Spacer(modifier = Modifier.height(4.dp))
                             LazyColumn(
@@ -390,7 +387,7 @@ fun EngineerHomeScreen(
                             Spacer(modifier = Modifier.height(24.dp))
                             Text(
                                 text = stringResource(R.string.list_is_empty),
-                                fontSize = 14.sp,
+                                fontSize = 16.sp,
                                 fontWeight = FontWeight.Normal,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
@@ -435,22 +432,22 @@ fun EngineerHomeScreen(
                     Button(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 24.dp), onClick = {
+                            .padding(horizontal = 24.dp),
+                        onClick = {
                             val dateInMilliseconds = datePickerState.selectedDateMillis ?: 0
 
-                            if (state.selectStartDate)
-                                viewModel.onEvent(
-                                    EngineerHomeEvent.SelectStartDateEvent(
-                                        dateInMilliseconds
-                                    )
+                            if (state.selectStartDate) viewModel.onEvent(
+                                EngineerHomeEvent.SelectStartDateEvent(
+                                    dateInMilliseconds
                                 )
-                            else
-                                viewModel.onEvent(
-                                    EngineerHomeEvent.SelectEndDateEvent(
-                                        dateInMilliseconds
-                                    )
+                            )
+                            else viewModel.onEvent(
+                                EngineerHomeEvent.SelectEndDateEvent(
+                                    dateInMilliseconds
                                 )
-                        }, shape = RoundedCornerShape(12.dp),
+                            )
+                        },
+                        shape = RoundedCornerShape(12.dp),
                         colors = ButtonDefaults.buttonColors(contentColor = Color.White)
                     ) {
                         Text(

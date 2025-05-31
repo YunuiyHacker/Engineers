@@ -53,7 +53,7 @@ fun SearchBar(
         singleLine = true,
         textStyle = TextStyle(
             fontWeight = FontWeight.Normal,
-            fontSize = 14.sp
+            fontSize = 16.sp
         ),
         colors = TextFieldDefaults.colors(
             unfocusedIndicatorColor = Color.DarkGray,
@@ -91,7 +91,7 @@ fun SearchBar(
                 text = placeholder,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontWeight = FontWeight.Normal,
-                fontSize = 14.sp,
+                fontSize = 16.sp,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )

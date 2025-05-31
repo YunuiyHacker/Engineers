@@ -16,18 +16,19 @@ import kotlinx.coroutines.runBlocking
 import retrofit2.HttpException
 import yunuiy_hacker.ryzhaya_tetenka.engineer.data.local.shared_prefs.SharedPrefsHelper
 import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.common.mappers.toDomain
-import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.kotlin.use_case.application_statuses.ApplicationStatusesUseCase
 import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.one_c.use_case.repair_requests.OneCRepairRequestsUseCase
+import yunuiy_hacker.ryzhaya_tetenka.engineer.domain.one_c.use_case.statuses.StatusesUseCase
 import yunuiy_hacker.ryzhaya_tetenka.engineer.utils.getConnectivityManager
 import java.util.Date
 import javax.inject.Inject
+import kotlin.collections.first
 
 @HiltViewModel
 class EngineerHomeViewModel @Inject constructor(
     val application: Application,
     private val sharedPrefsHelper: SharedPrefsHelper,
     private val oneCRepairRequestsUseCase: OneCRepairRequestsUseCase,
-    private val applicationStatusesUseCase: ApplicationStatusesUseCase,
+    private val statusesUseCase: StatusesUseCase,
     val gson: Gson
 ) : ViewModel() {
     val state by mutableStateOf(EngineerHomeState())
@@ -110,20 +111,20 @@ class EngineerHomeViewModel @Inject constructor(
         GlobalScope.launch(Dispatchers.IO) {
             runBlocking {
                 try {
-                    state.masterTitle = sharedPrefsHelper.title ?: ""
-                    state.masterTitleClarifying = sharedPrefsHelper.titleClarifying ?: ""
+                    state.login = sharedPrefsHelper.login ?: ""
+                    state.full_name = sharedPrefsHelper.fullName ?: ""
 
                     state.allRepairRequests =
                         oneCRepairRequestsUseCase.getOneCRepairRequestsByEngineerNameAndEngineerNameClarifyingOperator(
-                            state.masterTitle, state.masterTitleClarifying
+                            state.login, state.full_name
                         )?.map { it.toDomain() }?.toMutableList() ?: mutableListOf()
                     state.repairRequests = state.allRepairRequests
 
-                    state.applicationStatuses =
-                        applicationStatusesUseCase.getAllApplicationStatusesOperator()
+                    state.statuses =
+                        statusesUseCase.getAllStatusesOperator()
                             ?.map { it.toDomain() }?.toMutableList() ?: mutableListOf()
 
-                    state.selectedStatus = state.applicationStatuses.first()
+                    state.selectedStatus = state.statuses.first()
 
                     val currentDate = Date()
                     currentDate.hours = 0
@@ -178,8 +179,8 @@ class EngineerHomeViewModel @Inject constructor(
                     if (state.applyStatusFiltering && !state.applyPeriodFiltering) {
                         state.allRepairRequests =
                             oneCRepairRequestsUseCase.getOneCRepairRequestsByEngineerNameEngineerNameClarifyingAndStatusOperator(
-                                masterTitle = state.masterTitle,
-                                masterTitleClarifying = state.masterTitleClarifying,
+                                login = state.login,
+                                full_name = state.full_name,
                                 status = state.selectedStatus.title
                             )?.map {
                                 it.toDomain()
@@ -188,8 +189,8 @@ class EngineerHomeViewModel @Inject constructor(
                     if (!state.applyStatusFiltering && state.applyPeriodFiltering) {
                         state.allRepairRequests =
                             oneCRepairRequestsUseCase.getOneCRepairRequestsByEngineerNameEngineerNameClarifyingAndDateOperator(
-                                masterTitle = state.masterTitle,
-                                masterTitleClarifying = state.masterTitleClarifying,
+                                login = state.login,
+                                full_name = state.full_name,
                                 startDate = startDate,
                                 endDate = endDate
                             )?.map {
@@ -199,8 +200,8 @@ class EngineerHomeViewModel @Inject constructor(
                     if (state.applyStatusFiltering && state.applyPeriodFiltering) {
                         state.allRepairRequests =
                             oneCRepairRequestsUseCase.getOneCRepairRequestsByEngineerNameEngineerNameClarifyingDateAndStatusOperator(
-                                masterTitle = state.masterTitle,
-                                masterTitleClarifying = state.masterTitleClarifying,
+                                login = state.login,
+                                full_name = state.full_name,
                                 status = state.selectedStatus.title,
                                 startDate = startDate,
                                 endDate = endDate
@@ -211,8 +212,8 @@ class EngineerHomeViewModel @Inject constructor(
                     if (!state.applyStatusFiltering && !state.applyPeriodFiltering) {
                         state.allRepairRequests =
                             oneCRepairRequestsUseCase.getOneCRepairRequestsByEngineerNameAndEngineerNameClarifyingOperator(
-                                masterTitle = state.masterTitle,
-                                masterTitleClarifying = state.masterTitleClarifying
+                                login = state.login,
+                                full_name = state.full_name
                             )?.map {
                                 it.toDomain()
                             }?.toMutableList() ?: mutableStateListOf()
