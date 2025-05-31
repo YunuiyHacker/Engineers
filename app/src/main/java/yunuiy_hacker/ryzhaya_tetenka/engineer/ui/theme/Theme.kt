@@ -1,6 +1,5 @@
 package yunuiy_hacker.ryzhaya_tetenka.engineer.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

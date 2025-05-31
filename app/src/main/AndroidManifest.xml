@@ -15,13 +15,16 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_logo"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Engineer"
+        android:theme="@style/EngineerSplashTheme"
         android:usesCleartextTraffic="true"
+        android:windowSoftInputMode="adjustResize"
         tools:targetApi="34">
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.Engineer">
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
